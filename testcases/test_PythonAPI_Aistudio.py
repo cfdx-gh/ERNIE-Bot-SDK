@@ -37,7 +37,7 @@ class TestPythonAPI:
         result = pythonAPIAiStudioPrintModelList()
         print(result)
         assert 4 == len(result)
-        assert "ernie-bot-3.5"        == result[0][0]
+        assert "ernie-bot"        == result[0][0]
         assert "ernie-bot-turbo"      == result[1][0]
         assert "ernie-text-embedding" == result[2][0]
         assert "ernie-vilg-v2"        == result[3][0]
