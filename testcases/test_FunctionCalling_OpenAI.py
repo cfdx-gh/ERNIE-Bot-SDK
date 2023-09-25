@@ -202,7 +202,7 @@ def getEarchQuakeInfoDef(latitude, longitude, radius, magnitude, count):
             "radius":str(radius),"units":"miles", \
             "magnitude":str(magnitude),"intensity":"1"}
     headers = {
-	"X-RapidAPI-Key": "392bcfea46msh84593dd258b2545p10ec1ejsn3a20adeb1874",
+	"X-RapidAPI-Key": "*********************",
 	"X-RapidAPI-Host": "everyearthquake.p.rapidapi.com"
     }
     #response = requests.get(url, headers=headers, params=querystring)
@@ -350,7 +350,7 @@ def getMarketNewsDef(symbol, num):
     #querystring = {"symbol":"BIDU"}
     querystring = {"symbol":symbol}
     headers = {
-	"X-RapidAPI-Key": "392bcfea46msh84593dd258b2545p10ec1ejsn3a20adeb1874",
+	"X-RapidAPI-Key": "*********************",
 	"X-RapidAPI-Host": "mboum-finance.p.rapidapi.com"
     }
     #response = requests.get(url, headers=headers, params=querystring)
