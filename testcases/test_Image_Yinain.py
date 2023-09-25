@@ -16,7 +16,7 @@ def imageGenerate():
     """ Image generate use yinain """
     response = erniebot.Image.create(
         model="ernie-vilg-v2",
-        prompt="雨后的桃花，8k，辛烷值渲染",
+        prompt="雨后的桃花",
         width=512,
         height=512
     )
@@ -27,7 +27,7 @@ def imageGenerate():
 class TestImage:
     """ Test Class for Image """
     def test_yinianImageGenerate(self):
-        erniebot.access_token = ""
+        #erniebot.access_token = ""
         result = imageGenerate()
         print("res:", result)
         assert "" != result
