@@ -1,0 +1,68 @@
+{
+	"name": "getEarchQuakeInfoDef",
+	"description": "获取指定经纬度周边范围内发生过的地震信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"latitude": {
+				"type": "float",
+				"description": "纬度，例如北京是北纬39.4"
+			},
+			"longitude": {
+				"type": "float",
+				"description": "经度，例如北京是东经115.6"
+			},
+			"radius": {
+				"type": "integer",
+				"description": "以指定经纬度为中心的圆半径，例如1000 miles"
+			},
+			"magnitude": {
+				"type": "integer",
+				"description": "地震的震级，例如里氏7级"
+			},
+			"count": {
+				"type": "integer",
+				"description": "符合参数要求的地震数量，例如10"
+			}
+		},
+		"required": ["latitude", "longitude", "radius", "magnitude", "count"]
+	},
+	"response": {
+		"type": "object",
+		"properties": {
+			"magnitude": {
+				"type": "integer",
+				"description": "地震的震级，例如里氏7级"
+			},
+			"title": {
+				"type": "string",
+				"description": "地震标题，概要信息"
+			},
+			"date": {
+				"type": "string",
+				"description": "地震发生的日期"
+			},
+			"detail_info": {
+				"type": "string",
+				"description": "地震的详细信息链接地址"
+			},
+			"country": {
+				"type": "string",
+				"description": "地震发生地所属国家名称"
+			},
+			"city": {
+				"type": "string",
+				"description": "地震发生地所属城市名称"
+			},
+			"latitude": {
+				"type": "float",
+				"description": "地震发生地纬度"
+			},
+			"longitude": {
+				"type": "float",
+				"description": "地震发生地经度"
+			}
+		},
+		"required": ["magnitude", "title", "date", "country", "city", "latitude", "longitude", "detail_info"]
+	}
+}

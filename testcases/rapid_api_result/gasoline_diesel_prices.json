@@ -1,0 +1,160 @@
+{
+  "success": true,
+  "result": {
+    "state": {
+      "currency": "usd",
+      "name": "New York",
+      "lowerName": "new york",
+      "gasoline": "3.915",
+      "midGrade": "4.379",
+      "premium": "4.746",
+      "diesel": "4.743"
+    },
+    "cities": [
+      {
+        "currency": "usd",
+        "gasoline": "3.917",
+        "midGrade": "4.396",
+        "premium": "4.812",
+        "diesel": "4.682",
+        "name": "Albany-Schenectady-Troy",
+        "lowerName": "albany-schenectady-troy"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.845",
+        "midGrade": "4.218",
+        "premium": "4.643",
+        "diesel": "4.772",
+        "name": "Batavia",
+        "lowerName": "batavia"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.939",
+        "midGrade": "4.325",
+        "premium": "4.733",
+        "diesel": "4.790",
+        "name": "Binghamton",
+        "lowerName": "binghamton"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.879",
+        "midGrade": "4.283",
+        "premium": "4.622",
+        "diesel": "4.710",
+        "name": "Buffalo-Niagara Falls",
+        "lowerName": "buffalo-niagara falls"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.906",
+        "midGrade": "4.483",
+        "premium": "4.841",
+        "diesel": "4.677",
+        "name": "Dutchess-Putnam County",
+        "lowerName": "dutchess-putnam county"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.806",
+        "midGrade": "4.174",
+        "premium": "4.554",
+        "diesel": "4.569",
+        "name": "Elmira",
+        "lowerName": "elmira"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.998",
+        "midGrade": "4.445",
+        "premium": "4.889",
+        "diesel": "4.655",
+        "name": "Glens Falls",
+        "lowerName": "glens falls"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.933",
+        "midGrade": "4.345",
+        "premium": "4.740",
+        "diesel": "4.728",
+        "name": "Ithaca",
+        "lowerName": "ithaca"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.921",
+        "midGrade": "4.401",
+        "premium": "4.776",
+        "diesel": "4.667",
+        "name": "Kingston",
+        "lowerName": "kingston"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.853",
+        "midGrade": "4.333",
+        "premium": "4.665",
+        "diesel": "4.710",
+        "name": "Nassau-Suffolk",
+        "lowerName": "nassau-suffolk"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.970",
+        "midGrade": "4.409",
+        "premium": "4.768",
+        "diesel": "4.954",
+        "name": "New York",
+        "lowerName": "new york"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.908",
+        "midGrade": "4.327",
+        "premium": "4.691",
+        "diesel": "4.713",
+        "name": "Rochester",
+        "lowerName": "rochester"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.901",
+        "midGrade": "4.321",
+        "premium": "4.724",
+        "diesel": "4.715",
+        "name": "Syracuse",
+        "lowerName": "syracuse"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.950",
+        "midGrade": "4.381",
+        "premium": "4.781",
+        "diesel": "4.694",
+        "name": "Utica-Rome",
+        "lowerName": "utica-rome"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.956",
+        "midGrade": "4.408",
+        "premium": "4.818",
+        "diesel": "4.719",
+        "name": "Watertown-Fort Drum",
+        "lowerName": "watertown-fort drum"
+      },
+      {
+        "currency": "usd",
+        "gasoline": "3.961",
+        "midGrade": "4.518",
+        "premium": "4.865",
+        "diesel": "4.827",
+        "name": "White Plains",
+        "lowerName": "white plains"
+      }
+    ]
+  }
+}

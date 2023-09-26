@@ -1,0 +1,32 @@
+{
+	"name": "getGasolineDieselPricesDef",
+	"description": "获取某一个州或省内各个城市的汽油和柴油价格",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"state": {
+				"type": "string",
+				"description": "州名称"
+			}
+		},
+		"required": ["state"]
+	},
+	"response": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "州名称"
+			},
+			"gasoline": {
+				"type": "float",
+				"description": "汽油价格"
+			},
+			"diesel": {
+				"type": "float",
+				"description": "柴油价格"
+			}
+		},
+		"required": ["name", "gasoline", "diesel"]
+	}
+}
