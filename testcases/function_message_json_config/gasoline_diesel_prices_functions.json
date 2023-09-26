@@ -1,5 +1,5 @@
 {
-	"name": "getGasolineDieselPricesDef",
+	"name": "getGasolineDieselPrices",
 	"description": "获取某一个州或省内各个城市的汽油和柴油价格",
 	"parameters": {
 		"type": "object",

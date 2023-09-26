@@ -1,0 +1,36 @@
+{
+	"name": "searchAirport",
+	"description": "获取指定地点（城市）所有的机场相关信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"location": {
+				"type": "string",
+				"description": "机场所在的地方，例如城市名称"
+			}
+		},
+		"required": ["location"]
+	},
+	"response": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "机场名称，全称"
+			},
+			"parent_name": {
+				"type": "string",
+				"description": "机场名称，简称"
+			},
+			"airportCode": {
+				"type": "string",
+				"description": "机场编码"
+			},
+			"coords": {
+				"type": "string",
+				"description": "机场经纬度"
+			}
+		},
+		"required": ["name", "parent_name", "airportCode", "coords"]
+	}
+}

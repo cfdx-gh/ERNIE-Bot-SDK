@@ -1,5 +1,5 @@
 {
-	"name": "getMarketNewsDef",
+	"name": "getMarketNews",
 	"description": "获取近期有关某只股票的新闻",
 	"parameters": {
 		"type": "object",

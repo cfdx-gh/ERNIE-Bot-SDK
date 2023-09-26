@@ -1,15 +1,15 @@
 {
-	"name": "getEarchQuakeInfoDef",
+	"name": "getEarchQuakeInfo",
 	"description": "获取指定经纬度周边范围内发生过的地震信息",
 	"parameters": {
 		"type": "object",
 		"properties": {
 			"latitude": {
-				"type": "float",
+				"type": "number",
 				"description": "纬度，例如北京是北纬39.4"
 			},
 			"longitude": {
-				"type": "float",
+				"type": "number",
 				"description": "经度，例如北京是东经115.6"
 			},
 			"radius": {
@@ -55,11 +55,11 @@
 				"description": "地震发生地所属城市名称"
 			},
 			"latitude": {
-				"type": "float",
+				"type": "number",
 				"description": "地震发生地纬度"
 			},
 			"longitude": {
-				"type": "float",
+				"type": "number",
 				"description": "地震发生地经度"
 			}
 		},

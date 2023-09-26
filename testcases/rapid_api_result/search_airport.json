@@ -1,0 +1,150 @@
+{
+  "status": true,
+  "message": "Success",
+  "timestamp": 1695716491859,
+  "data": [
+    {
+      "lookbackServlet": null,
+      "autobroadened": "false",
+      "title": "Destinations",
+      "type": "AIRPORT",
+      "document_id": null,
+      "url": "/Flights-g294212-Beijing-Cheap_Discount_Airfares.html",
+      "children": [
+        {
+          "lookbackServlet": "Airport",
+          "autobroadened": "false",
+          "title": "Destinations",
+          "type": "AIRPORT",
+          "document_id": null,
+          "url": "/Flights?geo=7917497",
+          "scope": "global",
+          "name": "Beijing, China - Capital Airport (PEK)",
+          "data_type": "FLIGHTS_TO",
+          "details": {
+            "placetype": 10038,
+            "parent_name": "Capital Airport",
+            "address": "Shunyi",
+            "grandparent_name": "Beijing",
+            "grandparent_id": 294212,
+            "parent_id": 294212,
+            "grandparent_place_type": 10004,
+            "highlighted_name": "Beijing, China - Capital Airport (PEK)",
+            "name": "Beijing, China - Capital Airport (PEK)",
+            "parent_place_type": 10038,
+            "parent_ids": [
+              7917497,
+              294212,
+              294211,
+              2,
+              1
+            ],
+            "geo_name": "Beijing"
+          },
+          "airportCode": "PEK",
+          "shortName": "Beijing (PEK)",
+          "value": 7917497,
+          "coords": "40.07786,116.60376",
+          "isChild": true
+        },
+        {
+          "lookbackServlet": "Airport",
+          "autobroadened": "false",
+          "title": "Destinations",
+          "type": "AIRPORT",
+          "document_id": null,
+          "url": "/Flights?geo=10142661",
+          "scope": "global",
+          "name": "Beijing, China (NAY)",
+          "data_type": "FLIGHTS_TO",
+          "details": {
+            "placetype": 10038,
+            "parent_name": "Nanyuan Airport",
+            "grandparent_name": "Beijing",
+            "grandparent_id": 294212,
+            "parent_id": 294212,
+            "grandparent_place_type": 10004,
+            "highlighted_name": "Beijing, China (NAY)",
+            "name": "Beijing, China (NAY)",
+            "parent_place_type": 10038,
+            "parent_ids": [
+              10142661,
+              294212,
+              294211,
+              2,
+              1
+            ],
+            "geo_name": "Beijing"
+          },
+          "airportCode": "NAY",
+          "shortName": "Beijing (NAY)",
+          "value": 10142661,
+          "coords": "39.78278,116.388054",
+          "isChild": true
+        },
+        {
+          "lookbackServlet": "Airport",
+          "autobroadened": "false",
+          "title": "Destinations",
+          "type": "AIRPORT",
+          "document_id": null,
+          "url": "/Flights?geo=17561007",
+          "lastChild": true,
+          "scope": "global",
+          "name": "Beijing, China - Daxing International Airport (PKX)",
+          "data_type": "FLIGHTS_TO",
+          "details": {
+            "placetype": 10038,
+            "parent_name": "Beijing Daxing International Airport",
+            "grandparent_name": "Langfang",
+            "grandparent_id": 635518,
+            "parent_id": 635518,
+            "grandparent_place_type": 10004,
+            "highlighted_name": "Beijing, China - Daxing International Airport (PKX)",
+            "name": "Beijing, China - Daxing International Airport (PKX)",
+            "parent_place_type": 10038,
+            "parent_ids": [
+              17561007,
+              635518,
+              297429,
+              294211,
+              2,
+              1
+            ],
+            "geo_name": "Langfang"
+          },
+          "airportCode": "PKX",
+          "shortName": "Langfang (PKX)",
+          "value": 17561007,
+          "coords": "39.512444,116.410385",
+          "isChild": true
+        }
+      ],
+      "scope": "global",
+      "name": "Beijing, China - All Airports (BJS)",
+      "data_type": "FLIGHTS_TO",
+      "details": {
+        "placetype": 10004,
+        "parent_name": "China",
+        "grandparent_name": "Asia",
+        "grandparent_id": 2,
+        "parent_id": 294211,
+        "grandparent_place_type": 10000,
+        "rac_enabled": false,
+        "highlighted_name": "Beijing, China - All Airports (BJS)",
+        "name": "Beijing, China - All Airports (BJS)",
+        "parent_place_type": 10001,
+        "parent_ids": [
+          294211,
+          2,
+          1
+        ],
+        "geo_name": "China"
+      },
+      "airportCode": "BJS",
+      "shortName": "Beijing (BJS)",
+      "value": 294212,
+      "coords": "39.909336,116.39452"
+    }
+  ]
+}
