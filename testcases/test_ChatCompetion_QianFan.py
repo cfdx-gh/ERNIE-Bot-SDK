@@ -161,9 +161,9 @@ class TestChatCompetion:
 
     def test_qianfanChatCompetionMultiple(self):
         erniebot.access_token = ""
-       result = chatCompetionAiStudioMultiple()
-       print("res:", result)
-       assert "" != result
+        result = chatCompetionAiStudioMultiple()
+        print("res:", result)
+        assert "" != result
 
     def test_qianfanCommunicate(self):
         erniebot.access_token = ""
