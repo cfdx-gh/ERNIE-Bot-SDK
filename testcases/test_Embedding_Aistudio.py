@@ -1,6 +1,7 @@
 import pytest
 import erniebot
 import os
+import time
 import numpy as np
 from config_parse import get_config_elem_value
 
@@ -11,6 +12,7 @@ test_api_type = "aistudio"
 erniebot.api_type = test_api_type
 erniebot.access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+sleep_second_num = 10
 
 def embeddingAiStudioSingleInput():
     """ Test Class for Embedding AIStudio """
@@ -44,11 +46,13 @@ class TestEmbedding:
     def test_aistudioSingleInput(self):
         result = embeddingAiStudioSingleInput()
         assert 384 == len(result)
+        time.sleep(sleep_second_num)
 
     def test_aistudioTwoInput(self):
         res1, res2 = embeddingAiStudioTwoInput()
         assert 384 == len(res1)
         assert 384 == len(res2)
+        time.sleep(sleep_second_num)
 
 
 if __name__ == '__main__':

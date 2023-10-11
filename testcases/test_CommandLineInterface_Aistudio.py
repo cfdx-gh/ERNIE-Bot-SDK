@@ -3,6 +3,7 @@ import erniebot
 import os
 import sys
 import io
+import time
 import subprocess
 from config_parse import get_config_elem_value
 
@@ -13,6 +14,7 @@ test_api_type = "aistudio"
 api_type = test_api_type
 access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+sleep_second_num = 0
 
 def commandLineInterfaceAiStudioPrintModelList():
     """ Command Line Interface AiStudio Print Model List  """
@@ -38,16 +40,17 @@ class TestCommandLineInterface:
     def test_aistudioPrintModelList(self):
         result = commandLineInterfaceAiStudioPrintModelList()
         print(result)
-        #assert 4 == len(result)
-        #assert "ernie-bot-3.5"        == result[0][0]
-        #assert "ernie-bot-turbo"      == result[1][0]
-        #assert "ernie-text-embedding" == result[2][0]
-        #assert "ernie-vilg-v2"        == result[3][0]
+        assert "ernie-bot 文心一言旗舰版"              in result
+        assert "ernie-bot-turbo 文心一言轻量版"        in result
+        assert "ernie-text-embedding 文心百中语义模型" in result
+        assert "ernie-vilg-v2 文心一格模型"            in result
+        time.sleep(sleep_second_num)
     
     def test_aistudioCreateChatCompletion(self):
         result = commandLineInterfaceAiStudioChatCompletion()
         print(result)
-        assert "" != result
+        assert "您好，我是文心一言，英文名是ERNIE Bot" in result
+        time.sleep(sleep_second_num)
 
 
 if __name__ == '__main__':
