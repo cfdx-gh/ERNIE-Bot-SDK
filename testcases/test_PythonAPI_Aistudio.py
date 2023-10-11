@@ -45,7 +45,7 @@ class TestPythonAPI:
     def test_aistudioCreateChatComletion(self):
         result = pythonAPIAiStudioCreateChatComletion()
         print(result)
-        assert "" != result
+        assert "您好，我是文心一言，英文名是ERNIE Bot" in result
 
 
 if __name__ == '__main__':

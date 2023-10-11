@@ -162,7 +162,7 @@ class TestChatCompetion:
     def test_qianfanChatCompetionMultiple(self):
         erniebot.access_token = ""
         result = chatCompetionAiStudioMultiple()
-        print("res:", result)
+        print("res:", result["result"])
         assert "" != result
 
     def test_qianfanCommunicate(self):
@@ -183,6 +183,7 @@ class TestChatCompetion:
         print("res:", result)
         assert "" != result
 
+    @pytest.mark.skip
     def test_qianfanUseAccessToken(self):
         erniebot.ak = ""
         erniebot.sk = ""

@@ -1,6 +1,7 @@
 import pytest
 import erniebot
 import os
+import time
 from config_parse import get_config_elem_value
 
 cur_path = os.getcwd()
@@ -10,6 +11,7 @@ test_api_type = "aistudio"
 erniebot.api_type = test_api_type
 erniebot.access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+sleep_second_num = 10
 
 def chatCompetionAiStudioStreamFalse():
     """ Chat Competion AIStudio Stream False """
@@ -119,26 +121,31 @@ class TestChatCompetion:
         result = chatCompetionAiStudioStreamFalse()
         print("res:", result)
         assert "" != result
+        time.sleep(sleep_second_num)
 
     def test_aistudioCommunicate(self):
         result = chatCompetionAiStudioCommunicate()
         print("res:", result)
         assert "" != result
+        time.sleep(sleep_second_num)
 
     def test_aistudioContentCreation(self):
         result = chatCompetionAiStudioContentCreation()
         print("res:", result)
         assert "" != result
+        time.sleep(sleep_second_num)
 
     def test_aistudioCodeGeneration(self):
         result = chatCompetionAiStudioCodeGeneration()
         print("res:", result)
         assert "" != result
+        time.sleep(sleep_second_num)
 
     def test_aistudioConfigParam(self):
         result = chatCompetionAiStudioConfigParam()
         print("res:", result)
         assert "" != result
+        time.sleep(sleep_second_num)
 
 
 if __name__ == '__main__':
