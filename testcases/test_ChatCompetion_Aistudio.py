@@ -8,15 +8,18 @@ cur_path = os.getcwd()
 config_name = os.path.join(cur_path, "config/authentication.ini")
 
 test_api_type = "aistudio"
-erniebot.api_type = test_api_type
-erniebot.access_token = get_config_elem_value(config_name, test_api_type, "access_token")
+test_access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
-sleep_second_num = 10
+sleep_second_num = 15
 
 def chatCompetionAiStudioStreamFalse():
     """ Chat Competion AIStudio Stream False """
     stream = False
     response = erniebot.ChatCompletion.create(
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
         model="ernie-bot-3.5",
         messages=[{
             "role": "user",
@@ -39,6 +42,10 @@ def chatCompetionAiStudioCommunicate():
     """ Chat Competion AIStudio Communicate """
     stream = False
     response = erniebot.ChatCompletion.create(
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
         model="ernie-bot-3.5",
         messages=[{
             "role": "user",
@@ -61,6 +68,10 @@ def chatCompetionAiStudioContentCreation():
     """ Chat Competion AIStudio content creation """
     stream = False
     response = erniebot.ChatCompletion.create(
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
         model="ernie-bot-3.5",
         messages=[{
             "role": "user",
@@ -83,6 +94,10 @@ def chatCompetionAiStudioCodeGeneration():
     """ Chat Competion AIStudio code generation """
     stream = False
     response = erniebot.ChatCompletion.create(
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
         model="ernie-bot-3.5",
         messages=[{
             "role": "user",
@@ -106,7 +121,7 @@ def chatCompetionAiStudioConfigParam():
     response = erniebot.ChatCompletion.create(
         _config_ = dict(
             api_type = test_api_type,
-            access_token = erniebot.access_token,
+            access_token = test_access_token,
         ),
         model="ernie-bot",
         messages=[{"role": "user", "content": "你好，请介绍下你自己",
@@ -118,6 +133,7 @@ def chatCompetionAiStudioConfigParam():
 class TestChatCompetion:
     """ Test Class for Chat Competion """
     def test_aistudioStreamFalse(self):
+        time.sleep(sleep_second_num)
         result = chatCompetionAiStudioStreamFalse()
         print("res:", result)
         assert "" != result
@@ -137,12 +153,6 @@ class TestChatCompetion:
 
     def test_aistudioCodeGeneration(self):
         result = chatCompetionAiStudioCodeGeneration()
-        print("res:", result)
-        assert "" != result
-        time.sleep(sleep_second_num)
-
-    def test_aistudioConfigParam(self):
-        result = chatCompetionAiStudioConfigParam()
         print("res:", result)
         assert "" != result
         time.sleep(sleep_second_num)
