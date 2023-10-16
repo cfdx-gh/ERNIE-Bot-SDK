@@ -85,6 +85,21 @@ def embeddingTwoInputUseQianfan():
     return embedding_index0, embedding_index1
 
 
+def embeddingOutputCheckForTwoRequestUseAistudio():
+    """ Test Class for Embedding Output Check For Two Request Use AIStudio """
+    erniebot.api_type = test_api_aistudio
+    erniebot.access_token = test_access_token
+
+    response = erniebot.Embedding.create(
+    model="ernie-text-embedding",
+    input=[
+        "2023年北京市GDP总量"
+    ])
+    for emb_res in response.data:
+        embedding = np.array(emb_res["embedding"])
+    return(embedding)
+
+
 class TestEmbedding:
     """ Test Class for Embedding """
     def test_aistudioSingleInput(self):
@@ -107,6 +122,13 @@ class TestEmbedding:
         res1, res2 = embeddingTwoInputUseQianfan()
         assert 384 == len(res1)
         assert 384 == len(res2)
+        time.sleep(sleep_second_num)
+
+    def test_aistudioOutputCheckForTwoRequest(self):
+        result_1 = embeddingOutputCheckForTwoRequestUseAistudio()
+        time.sleep(sleep_second_num)
+        result_2 = embeddingOutputCheckForTwoRequestUseAistudio()
+        assert list(result_1) == list(result_2)
         time.sleep(sleep_second_num)
 
 if __name__ == '__main__':
