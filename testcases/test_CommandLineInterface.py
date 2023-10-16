@@ -22,10 +22,11 @@ sleep_second_num = 0
 def commandLineInterfacePrintModelListUseAistudio():
     """ Command Line Interface Print Model List Use Aistudio """
     # List supported models
-    erniebot.api_type = test_api_aistudio
-    erniebot.access_token = test_access_token
+    cmd = "export EB_API_TYPE=" + test_api_aistudio + " && "
+    cmd += "export EB_ACCESS_TOKEN=" + test_access_token + " && "
+    cmd += "erniebot api model.list"
 
-    (status,value) = subprocess.getstatusoutput('erniebot api model.list')
+    (status,value) = subprocess.getstatusoutput(cmd)
 
     return(value)
 
@@ -44,12 +45,12 @@ def commandLineInterfaceChatCompletionUseAistudio():
 def commandLineInterfacePrintModelListUseQianfan():
     """ Command Line Interface Print Model List Use Qianfan """
     # List supported models
-    erniebot.api_type = test_api_qianfan
-    erniebot.ak = test_ak
-    erniebot.sk = test_sk
+    cmd = "export EB_API_TYPE=" + test_api_qianfan + " && "
+    cmd += "export EB_AK=" + test_ak + " && "
+    cmd += "export EB_SK=" + test_sk + " && "
+    cmd += "erniebot api model.list"
 
-    (status,value) = subprocess.getstatusoutput('erniebot api model.list')
-
+    (status,value) = subprocess.getstatusoutput(cmd)
     return(value)
 
 
