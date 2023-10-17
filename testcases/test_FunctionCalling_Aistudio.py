@@ -2,15 +2,16 @@ import pytest
 import erniebot
 import os
 import json
+import time
 from config_parse import get_config_elem_value
 
 cur_path = os.getcwd()
 config_name = os.path.join(cur_path, "config/authentication.ini")
 
 test_api_type = "aistudio"
-erniebot.api_type = test_api_type
-erniebot.access_token = get_config_elem_value(config_name, test_api_type, "access_token")
+test_access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+sleep_second_num = 5
 
 functions = [
     {
@@ -71,13 +72,18 @@ def functionCallingAiStudioGetWeatherInfo():
     ]
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot-3.5",
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
+        model="ernie-bot",
         messages=messages,
         functions=functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
     print("function_call:",function_call)
+    res_function_callinfo = function_call
 
     name2function = {"get_current_temperature": get_current_temperature}
     func = name2function[function_call["name"]]
@@ -100,20 +106,35 @@ def functionCallingAiStudioGetWeatherInfo():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot-3.5",
+        _config_ = dict(
+            api_type = test_api_type,
+            access_token = test_access_token,
+        ),
+        model="ernie-bot",
         messages=messages,
         functions=functions
     )
-    return(response.result)
+    return(response.result, res_function_callinfo)
 
 
 class TestFunctionCalling:
     """ Test Class for Function Calling """
-    def test_aistudioGetWeatherInfo(self):
-        result = functionCallingAiStudioGetWeatherInfo()
-        print(result)
-        assert "" != result
+    def test_aistudioFunctionIsCalled(self):
+        result, res_function_callinfo = functionCallingAiStudioGetWeatherInfo()
+        print(res_function_callinfo)
+        function_name = res_function_callinfo["name"]
+        location = json.loads(res_function_callinfo["arguments"])["location"]
+        unit = json.loads(res_function_callinfo["arguments"])["unit"]
+        assert "get_current_temperature" == function_name
+        assert "深圳市" == location
+        assert "摄氏度" == unit
+        time.sleep(sleep_second_num)
 
+    def test_aistudioGetWeatherInfo(self):
+        result, res_function_callinfo = functionCallingAiStudioGetWeatherInfo()
+        print(result)
+        assert "深圳市" in result
+        time.sleep(sleep_second_num)
 
 if __name__ == '__main__':
     """ main function """
