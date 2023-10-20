@@ -128,7 +128,7 @@ class TestEmbedding:
         result_1 = embeddingOutputCheckForTwoRequestUseAistudio()
         time.sleep(sleep_second_num)
         result_2 = embeddingOutputCheckForTwoRequestUseAistudio()
-        assert list(result_1) == list(result_2)
+        assert True == np.array_equal(result_1, result_2)
         time.sleep(sleep_second_num)
 
 if __name__ == '__main__':
