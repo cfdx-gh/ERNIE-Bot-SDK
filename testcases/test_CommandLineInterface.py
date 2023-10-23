@@ -73,6 +73,7 @@ class TestCommandLineInterface:
         print(result)
         assert "ernie-bot 文心一言旗舰版"              in result
         assert "ernie-bot-turbo 文心一言轻量版"        in result
+        assert "基于文心大模型4.0版本的文心一言"        in result
         assert "ernie-text-embedding 文心百中语义模型" in result
         assert "ernie-vilg-v2 文心一格模型"            in result
         time.sleep(sleep_second_num)
@@ -88,6 +89,7 @@ class TestCommandLineInterface:
         print(result)
         assert "ernie-bot 文心一言旗舰版"              in result
         assert "ernie-bot-turbo 文心一言轻量版"        in result
+        assert "基于文心大模型4.0版本的文心一言"        in result
         assert "ernie-text-embedding 文心百中语义模型" in result
         assert "ernie-vilg-v2 文心一格模型"            in result
         time.sleep(sleep_second_num)

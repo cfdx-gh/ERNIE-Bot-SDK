@@ -65,11 +65,12 @@ class TestPythonAPI:
     def test_aistudioPrintModelList(self):
         result = pythonAPIPrintModelListUseAistudio()
         print(result)
-        assert 4 == len(result)
+        assert 5 == len(result)
         assert "ernie-bot"            == result[0][0]
         assert "ernie-bot-turbo"      == result[1][0]
-        assert "ernie-text-embedding" == result[2][0]
-        assert "ernie-vilg-v2"        == result[3][0]
+        assert "ernie-bot-4"          == result[2][0]
+        assert "ernie-text-embedding" == result[3][0]
+        assert "ernie-vilg-v2"        == result[4][0]
     
     def test_aistudioCreateChatComletion(self):
         result = pythonAPICreateChatComletionUseAistudio()
@@ -79,11 +80,12 @@ class TestPythonAPI:
     def test_qianfanPrintModelList(self):
         result = pythonAPIPrintModelListUseQianfan()
         print(result)
-        assert 4 == len(result)
+        assert 5 == len(result)
         assert "ernie-bot"            == result[0][0]
         assert "ernie-bot-turbo"      == result[1][0]
-        assert "ernie-text-embedding" == result[2][0]
-        assert "ernie-vilg-v2"        == result[3][0]
+        assert "ernie-bot-4"          == result[2][0]
+        assert "ernie-text-embedding" == result[3][0]
+        assert "ernie-vilg-v2"        == result[4][0]
     
     def test_qianfanCreateChatComletion(self):
         result = pythonAPICreateChatComletionUseQianfan()
