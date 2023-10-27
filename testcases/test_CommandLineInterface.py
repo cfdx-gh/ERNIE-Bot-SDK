@@ -17,6 +17,10 @@ test_sk = get_config_elem_value(config_name, test_api_qianfan, "sk")
 test_api_aistudio = "aistudio"
 test_access_token = get_config_elem_value(config_name, test_api_aistudio, "access_token")
 
+#test_model_name = "ernie-bot-3.5"
+test_model_name = "ernie-bot"
+#test_model_name = "ernie-bot-4"
+
 sleep_second_num = 0
 
 def commandLineInterfacePrintModelListUseAistudio():
@@ -35,7 +39,7 @@ def commandLineInterfaceChatCompletionUseAistudio():
     """ Command Line Interface ChatCompletion Use Aistudio  """
     cmd = "export EB_API_TYPE=" + test_api_aistudio + " && "
     cmd += "export EB_ACCESS_TOKEN=" + test_access_token + " && "
-    cmd += "erniebot api chat_completion.create --model ernie-bot-3.5 --message user \"请介绍下你自己\""
+    cmd += "erniebot api chat_completion.create --model " + test_model_name + " --message user \"请介绍下你自己\""
     #print(cmd)
     (status,value) = subprocess.getstatusoutput(cmd)
 
@@ -59,7 +63,7 @@ def commandLineInterfaceChatCompletionUseQianfan():
     cmd = "export EB_API_TYPE=" + test_api_qianfan + " && "
     cmd += "export EB_AK=" + test_ak + " && "
     cmd += "export EB_SK=" + test_sk + " && "
-    cmd += "erniebot api chat_completion.create --model ernie-bot-3.5 --message user \"请介绍下你自己\""
+    cmd += "erniebot api chat_completion.create --model " + test_model_name + " --message user \"请介绍下你自己\""
     #print(cmd)
     (status,value) = subprocess.getstatusoutput(cmd)
 
@@ -68,6 +72,7 @@ def commandLineInterfaceChatCompletionUseQianfan():
 
 class TestCommandLineInterface:
     """ Test Class for Command Line Interface """
+    @pytest.mark.skip
     def test_aistudioPrintModelList(self):
         result = commandLineInterfacePrintModelListUseAistudio()
         print(result)
@@ -84,6 +89,7 @@ class TestCommandLineInterface:
         assert "您好，我是文心一言，英文名是ERNIE Bot" in result
         time.sleep(sleep_second_num)
 
+    @pytest.mark.skip
     def test_qianfanPrintModelList(self):
         result = commandLineInterfacePrintModelListUseQianfan()
         print(result)

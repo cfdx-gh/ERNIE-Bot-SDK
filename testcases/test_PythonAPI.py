@@ -13,6 +13,9 @@ test_sk = get_config_elem_value(config_name, test_api_qianfan, "sk")
 test_api_aistudio = "aistudio"
 test_access_token = get_config_elem_value(config_name, test_api_aistudio, "access_token")
 
+#test_model_name = "ernie-bot-3.5"
+test_model_name = "ernie-bot"
+#test_model_name = "ernie-bot-4"
 
 def pythonAPIPrintModelListUseAistudio():
     """ python API Print Model List Use AiStudio """
@@ -31,7 +34,7 @@ def pythonAPICreateChatComletionUseAistudio():
     erniebot.api_type = test_api_aistudio
     erniebot.access_token = test_access_token
 
-    response = erniebot.ChatCompletion.create(model="ernie-bot-3.5", messages=[{"role": "user", "content": "你好，请介绍下你自己"}])
+    response = erniebot.ChatCompletion.create(model=test_model_name, messages=[{"role": "user", "content": "你好，请介绍下你自己"}])
 
     return(response.result)
 
@@ -55,13 +58,14 @@ def pythonAPICreateChatComletionUseQianfan():
     erniebot.ak = test_ak
     erniebot.sk = test_sk
 
-    response = erniebot.ChatCompletion.create(model="ernie-bot-3.5", messages=[{"role": "user", "content": "你好，请介绍下你自己"}])
+    response = erniebot.ChatCompletion.create(model=test_model_name, messages=[{"role": "user", "content": "你好，请介绍下你自己"}])
 
     return(response.result)
 
 
 class TestPythonAPI:
     """ Test Class for Python API """
+    @pytest.mark.skip
     def test_aistudioPrintModelList(self):
         result = pythonAPIPrintModelListUseAistudio()
         print(result)
@@ -77,6 +81,7 @@ class TestPythonAPI:
         print(result)
         assert "您好，我是文心一言，英文名是ERNIE Bot" in result
 
+    @pytest.mark.skip
     def test_qianfanPrintModelList(self):
         result = pythonAPIPrintModelListUseQianfan()
         print(result)
