@@ -19,7 +19,7 @@ from typing_extensions import TypeAlias
 import erniebot.errors as errors
 from erniebot.api_types import APIType
 from erniebot.response import EBResponse
-from erniebot.types import (ParamsType, HeadersType)
+from erniebot.types import (HeadersType, ParamsType)
 from .resource import EBResource
 
 
@@ -42,52 +42,54 @@ class _Image(EBResource):
         return resp
 
     def create_resource(self, **create_kwargs: Any) -> EBResponse:
-        url, params, headers, request_timeout = self._prepare_paint(
+        path, params, headers, request_timeout = self._prepare_paint(
             create_kwargs)
         resp_p = self.request(
             method='POST',
-            url=url,
+            path=path,
             stream=False,
             params=params,
             headers=headers,
             files=None,
             request_timeout=request_timeout)
-        assert isinstance(resp_p, EBResponse)
 
-        url, params, headers = self._prepare_fetch(resp_p)
+        path, params, headers = self._prepare_fetch(resp_p)
         resp_f = self.poll(
             until=self._check_status,
             method='POST',
-            url=url,
+            path=path,
             params=params,
             headers=headers,
             # XXX: Reuse `request_timeout`. Should we implement finer-grained control?
             request_timeout=request_timeout)
+
+        resp_f = self._postprocess(resp_f)
 
         return resp_f
 
     async def acreate_resource(self, **create_kwargs: Any) -> EBResponse:
-        url, params, headers, request_timeout = self._prepare_paint(
+        path, params, headers, request_timeout = self._prepare_paint(
             create_kwargs)
         resp_p = await self.arequest(
             method='POST',
-            url=url,
+            path=path,
             stream=False,
             params=params,
             headers=headers,
             files=None,
             request_timeout=request_timeout)
-        assert isinstance(resp_p, EBResponse)
 
-        url, params, headers = self._prepare_fetch(resp_p)
+        path, params, headers = self._prepare_fetch(resp_p)
         resp_f = await self.apoll(
             until=self._check_status,
             method='POST',
-            url=url,
+            path=path,
             params=params,
             headers=headers,
             # XXX: Reuse `request_timeout`. Should we implement finer-grained control?
             request_timeout=request_timeout)
+
+        resp_f = self._postprocess(resp_f)
 
         return resp_f
 
@@ -103,6 +105,9 @@ class _Image(EBResource):
                                                           Optional[ParamsType],
                                                           Optional[HeadersType],
                                                           ]:
+        raise NotImplementedError
+
+    def _postprocess(self, resp_f: EBResponse) -> EBResponse:
         raise NotImplementedError
 
     @staticmethod
@@ -150,10 +155,10 @@ class ImageV1(_Image):
             raise errors.ArgumentNotFoundError(f"`style` is not found.")
         style = kwargs['style']
 
-        # url
+        # path
         assert self.SUPPORTED_API_TYPES == (APIType.YINIAN, )
         if self.api_type is APIType.YINIAN:
-            url = "/txt2img"
+            path = "/txt2img"
         else:
             raise errors.UnsupportedAPITypeError(
                 f"Supported API types: {self.get_supported_api_type_names()}")
@@ -171,16 +176,16 @@ class ImageV1(_Image):
         # request_timeout
         request_timeout = kwargs.get('request_timeout', None)
 
-        return url, params, headers, request_timeout
+        return path, params, headers, request_timeout
 
     def _prepare_fetch(self, resp_p: EBResponse) -> Tuple[str,
                                                           Optional[ParamsType],
                                                           Optional[HeadersType],
                                                           ]:
-        # url
+        # path
         assert self.SUPPORTED_API_TYPES == (APIType.YINIAN, )
         if self.api_type is APIType.YINIAN:
-            url = "/getImg"
+            path = "/getImg"
         else:
             raise errors.UnsupportedAPITypeError(
                 f"Supported API types: {self.get_supported_api_type_names()}")
@@ -192,7 +197,10 @@ class ImageV1(_Image):
         # headers
         headers = {'Accept': 'application/json'}
 
-        return url, params, headers
+        return path, params, headers
+
+    def _postprocess(self, resp_f: EBResponse) -> EBResponse:
+        return resp_f
 
     @staticmethod
     def _check_status(resp: EBResponse) -> bool:
@@ -246,10 +254,10 @@ class ImageV2(_Image):
             raise errors.ArgumentNotFoundError(f"`height` is not found.")
         height = kwargs['height']
 
-        # url
+        # path
         assert self.SUPPORTED_API_TYPES == (APIType.YINIAN, )
         if self.api_type is APIType.YINIAN:
-            url = "/txt2imgv2"
+            path = "/txt2imgv2"
             if model != 'ernie-vilg-v2':
                 raise errors.InvalidArgumentError(
                     f"{repr(model)} is not a supported model.")
@@ -271,16 +279,16 @@ class ImageV2(_Image):
         # request_timeout
         request_timeout = kwargs.get('request_timeout', None)
 
-        return url, params, headers, request_timeout
+        return path, params, headers, request_timeout
 
     def _prepare_fetch(self, resp_p: EBResponse) -> Tuple[str,
                                                           Optional[ParamsType],
                                                           Optional[HeadersType],
                                                           ]:
-        # url
+        # path
         assert self.SUPPORTED_API_TYPES == (APIType.YINIAN, )
         if self.api_type is APIType.YINIAN:
-            url = "/getImgv2"
+            path = "/getImgv2"
         else:
             raise errors.UnsupportedAPITypeError(
                 f"Supported API types: {self.get_supported_api_type_names()}")
@@ -292,7 +300,10 @@ class ImageV2(_Image):
         # headers
         headers = {'Accept': 'application/json'}
 
-        return url, params, headers
+        return path, params, headers
+
+    def _postprocess(self, resp_f: EBResponse) -> EBResponse:
+        return ImageV2Response.from_mapping(resp_f)
 
     @staticmethod
     def _check_status(resp: EBResponse) -> bool:
@@ -302,4 +313,16 @@ class ImageV2(_Image):
         return status == 'SUCCESS'
 
 
+class ImageV2Response(EBResponse):
+    def get_result(self) -> Any:
+        image_urls = []
+        for task_item in self.data['sub_task_result_list']:
+            for image_item in task_item['final_image_list']:
+                review_conclusion = image_item['img_approve_conclusion']
+                if review_conclusion == 'pass':
+                    image_urls.append(image_item['img_url'])
+        return image_urls
+
+
 Image: TypeAlias = ImageV2
+ImageResponse: TypeAlias = ImageV2Response

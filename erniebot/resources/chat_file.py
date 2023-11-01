@@ -16,8 +16,10 @@ from typing import (Any, ClassVar, Dict, Optional, Tuple)
 
 import erniebot.errors as errors
 from erniebot.api_types import APIType
-from erniebot.types import (ParamsType, HeadersType, FilesType, ResponseT)
+from erniebot.types import (FilesType, HeadersType, ParamsType, ResponseT)
+from erniebot.utils.misc import transform
 from .abc import Creatable
+from .chat_completion import ChatResponse
 from .resource import EBResource
 
 
@@ -34,7 +36,7 @@ class ChatFile(EBResource, Creatable):
                                                          bool,
                                                          Optional[float],
                                                          ]:
-        VALID_KEYS = {'messages', 'headers', 'stream', 'request_timeout'}
+        VALID_KEYS = {'messages', 'headers', 'request_timeout'}
 
         invalid_keys = kwargs.keys() - VALID_KEYS
 
@@ -47,10 +49,10 @@ class ChatFile(EBResource, Creatable):
             raise errors.ArgumentNotFoundError("`messages` is not found.")
         messages = kwargs['messages']
 
-        # url
+        # path
         assert self.SUPPORTED_API_TYPES == (APIType.QIANFAN, )
         if self.api_type is APIType.QIANFAN:
-            url = "/chat/chatfile_adv"
+            path = "/chat/chatfile_adv"
         else:
             raise errors.UnsupportedAPITypeError(
                 f"Supported API types: {self.get_supported_api_type_names()}")
@@ -66,12 +68,12 @@ class ChatFile(EBResource, Creatable):
         files = None
 
         # stream
-        stream = kwargs.get('stream', False)
+        stream = False
 
         # request_timeout
         request_timeout = kwargs.get('request_timeout', None)
 
-        return url, params, headers, files, stream, request_timeout
+        return path, params, headers, files, stream, request_timeout
 
-    def _post_process_create(self, resp: ResponseT) -> ResponseT:
-        return resp
+    def _postprocess_create(self, resp: ResponseT) -> ResponseT:
+        return transform(ChatResponse.from_mapping, resp)

@@ -15,13 +15,6 @@
 # limitations under the License.
 
 import argparse
-import sys
-major = sys.version_info.major
-minor = sys.version_info.minor
-if int(major) != 3 or int(minor) < 8:
-    raise RuntimeError(
-        f"The Gradio demo requires Python >= 3.8, but your Python version is {major}.{minor}."
-    )
 import time
 
 import erniebot as eb
@@ -38,9 +31,9 @@ def parse_setup_args():
 
 
 def create_ui_and_launch(args):
-    with gr.Blocks(title="ERNIE Bot SDK", theme=gr.themes.Soft()) as block:
-        with gr.Row():
-            gr.Markdown("# ERNIE Bot SDK")
+    with gr.Blocks(
+            title="ERNIE Bot SDK Demos", theme=gr.themes.Soft()) as block:
+        gr.Markdown("# ERNIE Bot SDK基础功能演示")
         create_chat_completion_tab()
         create_embedding_tab()
         create_image_tab()
@@ -51,18 +44,23 @@ def create_ui_and_launch(args):
 def create_chat_completion_tab():
     def _infer(ernie_model, content, state, top_p, temperature, api_type,
                access_key, secret_key, access_token):
-        if (access_key.strip() == '' or
-                secret_key.strip() == '') and access_token.strip() == '':
+        access_key = access_key.strip()
+        secret_key = secret_key.strip()
+        access_token = access_token.strip()
+
+        if (access_key == '' or secret_key == '') and access_token == '':
             raise gr.Error("需要填写正确的AK/SK或access token，不能为空")
         if content.strip() == '':
             raise gr.Error("输入不能为空，请在清空后重试")
 
-        auth_config = {
-            'api_type': api_type,
-            'ak': access_key.strip(),
-            'sk': secret_key.strip(),
-            'access_token': access_token.strip(),
-        }
+        auth_config = {'api_type': api_type, }
+        if access_key:
+            auth_config['ak'] = access_key
+        if secret_key:
+            auth_config['sk'] = secret_key
+        if access_token:
+            auth_config['access_token'] = access_token
+
         content = content.strip().replace('<br>', '\n')
         context = state.setdefault('context', [])
         context.append({'role': 'user', 'content': content})
@@ -123,11 +121,11 @@ def create_chat_completion_tab():
                     value='qianfan',
                     choices=['qianfan', 'aistudio'])
                 access_key = gr.Textbox(
-                    label="Access Key ID",
+                    label="AK",
                     info="用于访问后端平台的AK，如果设置了access token则无需设置此参数",
                     type='password')
                 secret_key = gr.Textbox(
-                    label="Secret Access Key",
+                    label="SK",
                     info="用于访问后端平台的SK，如果设置了access token则无需设置此参数",
                     type='password')
                 access_token = gr.Textbox(
@@ -151,7 +149,7 @@ def create_chat_completion_tab():
                     info="控制采样随机性，该参数越小生成结果越稳定",
                     value=0.95,
                     minimum=0.05,
-                    maximum=1.5,
+                    maximum=1,
                     step=0.05)
             with gr.Column(scale=4):
                 state = gr.State({})
@@ -162,8 +160,7 @@ def create_chat_completion_tab():
                     rollback_btn = gr.Button("撤回")
                     regen_btn = gr.Button("重新生成")
                     send_btn = gr.Button("发送")
-                with gr.Row():
-                    raw_context_json = gr.JSON(label="原始对话上下文信息")
+                raw_context_json = gr.JSON(label="原始对话上下文信息")
 
         api_type.change(
             lambda api_type: {
@@ -270,24 +267,30 @@ def create_chat_completion_tab():
 def create_embedding_tab():
     def _get_embeddings(text1, text2, api_type, access_key, secret_key,
                         access_token):
-        if (access_key.strip() == '' or
-                secret_key.strip() == '') and access_token.strip() == '':
+        access_key = access_key.strip()
+        secret_key = secret_key.strip()
+        access_token = access_token.strip()
+
+        if (access_key == '' or secret_key == '') and access_token == '':
             raise gr.Error("需要填写正确的AK/SK或access token，不能为空")
+
+        auth_config = {'api_type': api_type, }
+        if access_key:
+            auth_config['ak'] = access_key
+        if secret_key:
+            auth_config['sk'] = secret_key
+        if access_token:
+            auth_config['access_token'] = access_token
 
         if text1.strip() == '' or text2.strip() == '':
             raise gr.Error("两个输入均不能为空")
         embeddings = eb.Embedding.create(
-            _config_={
-                'api_type': api_type,
-                'ak': access_key,
-                'sk': secret_key,
-                'access_token': access_token,
-            },
+            _config_=auth_config,
             model='ernie-text-embedding',
             input=[text1.strip(), text2.strip()],
         )
-        emb_0 = embeddings.body['data'][0]['embedding']
-        emb_1 = embeddings.body['data'][1]['embedding']
+        emb_0 = embeddings.rbody['data'][0]['embedding']
+        emb_1 = embeddings.rbody['data'][1]['embedding']
         cos_sim = _calc_cosine_similarity(emb_0, emb_1)
         cos_sim_text = f"## 两段文本余弦相似度: {cos_sim}"
         return str(emb_0), str(emb_1), cos_sim_text
@@ -307,11 +310,11 @@ def create_embedding_tab():
                     value='qianfan',
                     choices=['qianfan', 'aistudio'])
                 access_key = gr.Textbox(
-                    label="Access Key ID",
+                    label="AK",
                     info="用于访问后端平台的AK，如果设置了access token则无需设置此参数",
                     type='password')
                 secret_key = gr.Textbox(
-                    label="Secret Access Key",
+                    label="SK",
                     info="用于访问后端平台的SK，如果设置了access token则无需设置此参数",
                     type='password')
                 access_token = gr.Textbox(
@@ -322,7 +325,7 @@ def create_embedding_tab():
                 with gr.Row():
                     text1 = gr.Textbox(label="第一段文本", placeholder="输入第一段文本")
                     text2 = gr.Textbox(label="第二段文本", placeholder="输入第二段文本")
-                cal_emb = gr.Button("提取向量")
+                cal_emb = gr.Button("生成向量")
                 cos_sim = gr.Markdown("## 余弦相似度: -")
                 with gr.Row():
                     embedding1 = gr.Textbox(label="文本1向量结果")
@@ -359,20 +362,28 @@ def create_embedding_tab():
 def create_image_tab():
     def _gen_image(prompt, w_and_h, api_type, access_key, secret_key,
                    access_token):
-        timestamp = int(time.time())
-        if (access_key.strip() == '' or
-                secret_key.strip() == '') and access_token.strip() == '':
+        access_key = access_key.strip()
+        secret_key = secret_key.strip()
+        access_token = access_token.strip()
+
+        if (access_key == '' or secret_key == '') and access_token == '':
             raise gr.Error("需要填写正确的AK/SK或access token，不能为空")
         if prompt.strip() == '':
             raise gr.Error("输入不能为空")
+
+        auth_config = {'api_type': api_type, }
+        if access_key:
+            auth_config['ak'] = access_key
+        if secret_key:
+            auth_config['sk'] = secret_key
+        if access_token:
+            auth_config['access_token'] = access_token
+
+        timestamp = int(time.time())
         w, h = [int(x) for x in w_and_h.strip().split('x')]
+
         response = eb.Image.create(
-            _config_={
-                'api_type': api_type,
-                'ak': access_key,
-                'sk': secret_key,
-                'access_token': access_token,
-            },
+            _config_=auth_config,
             model='ernie-vilg-v2',
             prompt=prompt,
             width=w,
@@ -396,11 +407,11 @@ def create_image_tab():
                     value='yinian',
                     choices=['yinian'])
                 access_key = gr.Textbox(
-                    label="Access Key ID",
+                    label="AK",
                     info="用于访问后端平台的AK，如果设置了access token则无需设置此参数",
                     type='password')
                 secret_key = gr.Textbox(
-                    label="Secret Access Key",
+                    label="SK",
                     info="用于访问后端平台的SK，如果设置了access token则无需设置此参数",
                     type='password')
                 access_token = gr.Textbox(
