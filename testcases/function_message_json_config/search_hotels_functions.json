@@ -1,0 +1,40 @@
+{
+	"name": "searchHotels",
+	"description": "获取某个城市的酒店信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"query": {
+				"type": "string",
+				"description": "用户输入的查询信息，如中国北京的酒店"
+			},
+			"limit_num": {
+				"type": "string",
+				"description": "返回的酒店数量"
+			}
+		},
+		"required": ["query", "limit_num"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "酒店名称"
+			},
+			"business_status": {
+				"type": "string",
+				"description": "酒店运营状态"
+			},
+			"full_address": {
+				"type": "string",
+				"description": "酒店具体地址"
+			},
+			"website": {
+				"type": "string",
+				"description": "酒店web访问链接"
+			}
+		},
+		"required": ["name", "business_status", "full_address", "website"]
+	}
+}

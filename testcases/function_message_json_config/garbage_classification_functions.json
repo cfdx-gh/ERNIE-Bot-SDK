@@ -1,0 +1,28 @@
+{
+	"name": "garbageClassification",
+	"description": "查询某物品属于什么垃圾",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"object_name": {
+				"type": "string",
+				"description": "要查询的物品名称"
+			}
+		},
+		"required": ["object_name"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "查询的物品名称"
+			},
+			"sort": {
+				"type": "string",
+				"description": "垃圾分类后的类型"
+			}
+		},
+		"required": ["name", "sort"]
+	}
+}

@@ -5,7 +5,10 @@ import json
 import requests
 from config_parse import get_config_elem_value
 from function_calling_define import getCurrentWeather, getNDayWeatherForecast, getEarchQuakeInfo, getMarketNews, \
-        getGasolineDieselPrices, searchAirport, searchFlights
+        getGasolineDieselPrices, searchAirport, searchFlights, searchHotels, searchQQBindInfo, searchIdentityInfo, \
+        getWebsiteSpeed, getTimeKeeper, getEncryMd5, getTelAddress, getHistoryTodayInfo, getHotList, getDeliveryInfo, \
+        getFoodHeatInfo, getOlyMedalsList, isOrNotHarassPhone, searchTradeMarkInfo, searchDomainWhoisInfo, jianhuangPicture, \
+        queryGasolinePrice, garbageClassification, queryMovieRank
 
 cur_path = os.getcwd()
 config_name = os.path.join(cur_path, "config/authentication.ini")
@@ -17,6 +20,9 @@ erniebot.sk = get_config_elem_value(config_name, test_api_type, "sk")
 
 json_config_dir = "function_message_json_config"
 
+test_model_name = "ernie-bot"
+#test_model_name = "ernie-bot-3.5"
+#test_model_name = "ernie-bot-4"
 
 def getCurrentWeatherCall():
     """ Function Calling Get Current Weather Info """
@@ -33,9 +39,9 @@ def getCurrentWeatherCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -44,7 +50,8 @@ def getCurrentWeatherCall():
     name2function = {"getCurrentWeather": getCurrentWeather}
     func = name2function[function_call["name"]]
     args = json.loads(function_call["arguments"])
-    res = func(location=args["location"], format=args["format"])
+    #res = func(location=args["location"], format=args["format"])
+    res = func(**args)
     print("function_response:", res)
 
     messages.append(
@@ -63,9 +70,9 @@ def getCurrentWeatherCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -86,9 +93,9 @@ def getNDayWeatherForecastCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -116,9 +123,9 @@ def getNDayWeatherForecastCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -139,9 +146,9 @@ def getEarchQuakeInfoCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -173,9 +180,9 @@ def getEarchQuakeInfoCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -196,9 +203,9 @@ def getMarketNewsCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -226,9 +233,9 @@ def getMarketNewsCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -249,9 +256,9 @@ def getGasolineDieselPricesCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -279,9 +286,9 @@ def getGasolineDieselPricesCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -302,9 +309,9 @@ def searchAirportCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -332,9 +339,9 @@ def searchAirportCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -355,9 +362,9 @@ def searchFlightsCall():
     functions.append(function_dict)
 
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     assert hasattr(response, "function_call")
     function_call = response.function_call
@@ -387,9 +394,1073 @@ def searchFlightsCall():
     )
     print("messages:",messages)
     response = erniebot.ChatCompletion.create(
-        model="ernie-bot",
-        messages=messages,
-        functions=functions
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchHotelsCall():
+    """ Function Calling Get Hotels Info """
+    messages = []
+    filename = "search_hotels_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_hotels_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchHotels": searchHotels}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchPizzaStoreCall():
+    """ Function Calling Get Pizza Store Info """
+    messages = []
+    filename = "search_pizzastore_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_pizzastore_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchPizzaStore": searchPizzaStore}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchQQBindInfoCall():
+    """ Function Calling Get QQ Bind Info """
+    messages = []
+    filename = "search_qq_bind_info_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_qq_bind_info_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchQQBindInfo": searchQQBindInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchIdentityInfoCall():
+    """ Function Calling Get Identity Info """
+    messages = []
+    filename = "search_identity_info_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_identity_info_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchIdentityInfo": searchIdentityInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getWebsiteSpeedCall():
+    """ Function Calling Get Website Speed """
+    messages = []
+    filename = "get_website_speed_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_website_speed_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getWebsiteSpeed": getWebsiteSpeed}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getTimeKeeperCall():
+    """ Function Calling Get Time Keeper """
+    messages = []
+    filename = "get_timekeeper_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_timekeeper_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getTimeKeeper": getTimeKeeper}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getEncryMd5Call():
+    """ Function Calling Get Encry Md5 """
+    messages = []
+    filename = "get_encry_md5_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_encry_md5_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getEncryMd5": getEncryMd5}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getTelAddressCall():
+    """ Function Calling Get Tel Address """
+    messages = []
+    filename = "get_tel_address_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_tel_address_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getTelAddress": getTelAddress}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getHistoryTodayInfoCall():
+    """ Function Calling Get What happened in History Today """
+    messages = []
+    filename = "get_history_today_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_history_today_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getHistoryTodayInfo": getHistoryTodayInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getHotListCall():
+    """ Function Calling Get Host List """
+    messages = []
+    filename = "get_hot_list_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_hot_list_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getHotList": getHotList}
+    func = name2function[function_call["name"]]
+    #print("func:", func.__code__)
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    #print("args:", args)
+    #breakpoint()
+    #res = func(platform_name1=args['platform_name1'], platform_name2=args['platform_name2'], count=args['count'])
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getDeliveryInfoCall():
+    """ Function Calling Get Delivery Info """
+    messages = []
+    filename = "get_delivery_info_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_delivery_info_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getDeliveryInfo": getDeliveryInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getFoodHeatInfoCall():
+    """ Function Calling Get Food Heat Info """
+    messages = []
+    filename = "get_food_heat_info_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_food_heat_info_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getFoodHeatInfo": getFoodHeatInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def getOlyMedalsListCall():
+    """ Function Calling Get Oly Medals List """
+    messages = []
+    filename = "get_oly_medal_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_oly_medal_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"getOlyMedalsList": getOlyMedalsList}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def isOrNotHarassPhoneCall():
+    """ Function Calling Is or Not Harass Phone """
+    messages = []
+    filename = "get_whether_harass_phone_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "get_whether_harass_phone_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"isOrNotHarassPhone": isOrNotHarassPhone}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchTradeMarkInfoCall():
+    """ Function Calling Search TradeMark Info """
+    messages = []
+    filename = "search_trademark_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_trademark_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchTradeMarkInfo": searchTradeMarkInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def searchDomainWhoisInfoCall():
+    """ Function Calling Search Domain Whois Info """
+    messages = []
+    filename = "search_domain_whois_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_domain_whois_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"searchDomainWhoisInfo": searchDomainWhoisInfo}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def jianhuangPictureCall():
+    """ Function Calling jianhuang Picture """
+    messages = []
+    filename = "jianhuang_picture_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "jianhuang_picture_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"jianhuangPicture": jianhuangPicture}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def queryGasolinePriceCall():
+    """ Function Calling Query Gasoline Price """
+    messages = []
+    filename = "query_gasoline_price_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "query_gasoline_price_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"queryGasolinePrice": queryGasolinePrice}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def garbageClassificationCall():
+    """ Function Calling Garbage Classification """
+    messages = []
+    filename = "garbage_classification_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "garbage_classification_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"garbageClassification": garbageClassification}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    print("response_result:", response.result)
+    return(response.result)
+
+
+def queryMovieRankCall():
+    """ Function Calling Query Movie Rank """
+    messages = []
+    filename = "query_movie_rank_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "query_movie_rank_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
+    )
+    assert hasattr(response, "function_call")
+    function_call = response.function_call
+    print("function_call:",function_call)
+
+    name2function = {"queryMovieRank": queryMovieRank}
+    func = name2function[function_call["name"]]
+    args = json.loads(function_call["arguments"])
+    res = func(**args)
+    print("function_response:", res)
+
+    messages.append(
+        {
+            "role": "assistant",
+            "content": None,
+            "function_call": function_call
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_call["name"],
+            "content": json.dumps(res, ensure_ascii=False)
+        }
+    )
+    print("messages:",messages)
+    response = erniebot.ChatCompletion.create(
+        model = test_model_name,
+        messages = messages,
+        functions = functions
     )
     print("response_result:", response.result)
     return(response.result)
@@ -397,32 +1468,133 @@ def searchFlightsCall():
 
 class TestFunctionCalling:
     """ Test Class for Function Calling """
+    @pytest.mark.skip
     def test_GetCurrentWeather(self):
         result = getCurrentWeatherCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_get_N_DayWeatherForecast(self):
         result = getNDayWeatherForecastCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_get_earchquakeInfo(self):
         result = getEarchQuakeInfoCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_get_marketNews(self):
         result = getMarketNewsCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_get_gasolineDieselPrices(self):
         result = getGasolineDieselPricesCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_searchAirport(self):
         result = searchAirportCall()
         assert "" != result
 
+    @pytest.mark.skip
     def test_searchFlights(self):
         result = searchFlightsCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_searchHotels(self):
+        result = searchHotelsCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_searchQQBindInfo(self):
+        result = searchQQBindInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_searchIdentityInfo(self):
+        result = searchIdentityInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getWebsiteSpeed(self):
+        result = getWebsiteSpeedCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getTimeKeeper(self):
+        result = getTimeKeeperCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getEncrypMd5(self):
+        result = getEncryMd5Call()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getTelAddress(self):
+        result = getTelAddressCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getHistoryTodayInfo(self):
+        result = getHistoryTodayInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getHotList(self):
+        result = getHotListCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getDeliveryInfo(self):
+        result = getDeliveryInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getFoodHeatInfo(self):
+        result = getFoodHeatInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_getOlyMedalsList(self):
+        result = getOlyMedalsListCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_isOrNotHarassPhone(self):
+        result = isOrNotHarassPhoneCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_searchTradeMarkInfo(self):
+        result = searchTradeMarkInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_searchDomainWhoisInfo(self):
+        result = searchDomainWhoisInfoCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_jianhuangPicture(self):
+        result = jianhuangPictureCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_queryGasolinePrice(self):
+        result = queryGasolinePriceCall()
+        assert "" != result
+
+    @pytest.mark.skip
+    def test_garbageClassification(self):
+        result = garbageClassificationCall()
+        assert "" != result
+
+    def test_queryMovieRank(self):
+        result = queryMovieRankCall()
         assert "" != result
 
 

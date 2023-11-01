@@ -1,0 +1,44 @@
+{
+	"name": "getHotList",
+	"description": "获取指定平台的热搜榜信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"platform_name1": {
+				"type": "string",
+				"description": "用户指定的平台1"
+			},
+			"platform_name2": {
+				"type": "string",
+				"description": "用户指定的平台2"
+			},
+			"count": {
+				"type": "string",
+				"description": "返回的热搜榜的信息数量"
+			}
+		},
+		"required": ["platform_name1", "platform_name2", "count"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"index": {
+				"type": "string",
+				"description": "热搜信息排行序号"
+			},
+			"title": {
+				"type": "string",
+				"description": "热搜信息对应标题"
+			},
+			"hot": {
+				"type": "string",
+				"description": "热搜指数"
+			},
+			"link": {
+				"type": "string",
+				"description": "热搜信息对应网址链接"
+			}
+		},
+		"required": ["index", "title", "host", "link"]
+	}
+}

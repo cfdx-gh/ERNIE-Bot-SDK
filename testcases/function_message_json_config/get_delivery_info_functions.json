@@ -1,0 +1,36 @@
+{
+	"name": "getDeliveryInfo",
+	"description": "获取指定快递单号的详细信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"delivery_num": {
+				"type": "string",
+				"description": "快递单号"
+			}
+		},
+		"required": ["delivery_num"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"delivery_name": {
+				"type": "string",
+				"description": "快递公司名称"
+			},
+			"delivery_mailNo": {
+				"type": "string",
+				"description": "快递单号"
+			},
+			"delivery_status": {
+				"type": "string",
+				"description": "快递当前状态"
+			},
+			"delivery_detail_info": {
+				"type": "string",
+				"description": "快递详细物流信息"
+			}
+		},
+		"required": ["delivery_name", "delivery_mailNo", "delivery_status", "delivery_detail_info"]
+	}
+}

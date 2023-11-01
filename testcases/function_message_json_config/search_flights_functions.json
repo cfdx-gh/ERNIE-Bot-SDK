@@ -19,7 +19,7 @@
 		},
 		"required": ["sourceAirportCode", "destinationAirportCode", "date"]
 	},
-	"response": {
+	"responses": {
 		"type": "object",
 		"properties": {
 			"originStationCode": {

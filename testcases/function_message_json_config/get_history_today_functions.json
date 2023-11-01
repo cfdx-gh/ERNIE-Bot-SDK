@@ -1,0 +1,36 @@
+{
+	"name": "getHistoryTodayInfo",
+	"description": "获取历史上的今天发生了哪些大事",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"count": {
+				"type": "string",
+				"description": "返回大事件的数量"
+			}
+		},
+		"required": ["count"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"year": {
+				"type": "string",
+				"description": "事件对应的年份"
+			},
+			"title": {
+				"type": "string",
+				"description": "事件对应的标题"
+			},
+			"desc": {
+				"type": "string",
+				"description": "事件对应的概要"
+			},
+			"link": {
+				"type": "string",
+				"description": "事件对应的百科详细信息"
+			}
+		},
+		"required": ["year", "title", "desc", "link"]
+	}
+}

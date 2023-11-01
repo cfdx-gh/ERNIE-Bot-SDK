@@ -1,0 +1,36 @@
+{
+	"name": "getFoodHeatInfo",
+	"description": "获取某一种食物的种类和热量等信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"food_name": {
+				"type": "string",
+				"description": "食物名称"
+			}
+		},
+		"required": ["food_name"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"type": "string",
+				"description": "食物名称"
+			},
+			"desc": {
+				"type": "string",
+				"description": "食物描述"
+			},
+			"heat": {
+				"type": "string",
+				"description": "食物含有的热量，如卡路里"
+			},
+			"img_link": {
+				"type": "string",
+				"description": "食物的照片链接"
+			}
+		},
+		"required": ["name", "desc", "heat", "img_link"]
+	}
+}

@@ -27,7 +27,7 @@
 		},
 		"required": ["latitude", "longitude", "radius", "magnitude", "count"]
 	},
-	"response": {
+	"responses": {
 		"type": "object",
 		"properties": {
 			"magnitude": {

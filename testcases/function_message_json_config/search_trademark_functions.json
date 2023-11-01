@@ -1,0 +1,48 @@
+{
+	"name": "searchTradeMarkInfo",
+	"description": "获取某个商标的相关信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"keyword": {
+				"type": "string",
+				"description": "要查询的商标名称"
+			},
+			"count": {
+				"type": "string",
+				"description": "输出查询到的商标数量"
+			}
+		},
+		"required": ["keyword"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"trademarkName": {
+				"type": "string",
+				"description": "注册名称"
+			},
+			"agency": {
+				"type": "string",
+				"description": "代理机构"
+			},
+			"typeOfTrademarkName": {
+				"type": "string",
+				"description": "商标分类"
+			},
+			"trademarkNumber": {
+				"type": "number",
+				"description": "申请号"
+			},
+			"legalStatusName": {
+				"type": "string",
+				"description": "注册状态"
+			},
+			"trademarkApplicationDate": {
+				"type": "string",
+				"description": "申请日期"
+			}
+		},
+		"required": ["trademarkName", "agency", "typeOfTrademarkName", "trademarkNumber", "legalStatusName", "trademarkApplicationDate"]
+	}
+}
