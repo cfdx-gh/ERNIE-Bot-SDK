@@ -1,0 +1,48 @@
+{
+	"name": "getOlyMedalsList",
+	"description": "获取奥运奖牌榜的详细信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"count": {
+				"type": "string",
+				"description": "返回奖牌榜的名次数量"
+			}
+		},
+		"required": ["count"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"countryname": {
+				"type": "string",
+				"description": "国名"
+			},
+			"countryid": {
+				"type": "string",
+				"description": "国标"
+			},
+			"medal_rank": {
+				"type": "string",
+				"description": "排名"
+			},
+			"gold_count": {
+				"type": "string",
+				"description": "金牌数量"
+			},
+			"silver_count": {
+				"type": "string",
+				"description": "银牌数量"
+			},
+			"bronze_count": {
+				"type": "string",
+				"description": "铜牌数量"
+			},
+			"total_count": {
+				"type": "string",
+				"description": "奖牌总数"
+			}
+		},
+		"required": ["countryname", "countryid", "medal_rank", "gold_count", "silver_count", "bronze_count", "total_count"]
+	}
+}

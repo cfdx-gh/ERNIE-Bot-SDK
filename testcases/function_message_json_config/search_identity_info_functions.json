@@ -1,0 +1,40 @@
+{
+	"name": "searchIdentityInfo",
+	"description": "获取某个身份证号的相关信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"sfz_num": {
+				"type": "string",
+				"description": "用户输入的身份证号码"
+			}
+		},
+		"required": ["sfz_num"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"area": {
+				"type": "string",
+				"description": "所在地区"
+			},
+			"birthday": {
+				"type": "string",
+				"description": "出生日期"
+			},
+			"constellation": {
+				"type": "string",
+				"description": "星座"
+			},
+			"age": {
+				"type": "string",
+				"description": "年龄"
+			},
+			"gender": {
+				"type": "string",
+				"description": "性别"
+			}
+		},
+		"required": ["area", "birthday", "constellation", "age", "gender"]
+	}
+}

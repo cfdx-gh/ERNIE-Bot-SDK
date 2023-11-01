@@ -11,7 +11,7 @@
 		},
 		"required": ["state"]
 	},
-	"response": {
+	"responses": {
 		"type": "object",
 		"properties": {
 			"name": {
@@ -19,11 +19,11 @@
 				"description": "州名称"
 			},
 			"gasoline": {
-				"type": "float",
+				"type": "number",
 				"description": "汽油价格"
 			},
 			"diesel": {
-				"type": "float",
+				"type": "number",
 				"description": "柴油价格"
 			}
 		},

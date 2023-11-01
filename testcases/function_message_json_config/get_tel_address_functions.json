@@ -1,0 +1,36 @@
+{
+	"name": "getTelAddress",
+	"description": "获取某个手机号的归属地信息",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"tel_phone_num": {
+				"type": "string",
+				"description": "需要查询的手机号码"
+			}
+		},
+		"required": ["tel_phone_num"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"prov": {
+				"type": "string",
+				"description": "手机归属地所在省份"
+			},
+			"city": {
+				"type": "string",
+				"description": "手机归属地所在城市"
+			},
+			"name": {
+				"type": "string",
+				"description": "手机卡全名"
+			},
+			"areaCode": {
+				"type": "string",
+				"description": "城市编码"
+			}
+		},
+		"required": ["prov", "city", "name", "areaCode"]
+	}
+}

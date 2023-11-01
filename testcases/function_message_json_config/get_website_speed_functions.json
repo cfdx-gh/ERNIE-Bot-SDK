@@ -1,0 +1,40 @@
+{
+	"name": "getWebsiteSpeed",
+	"description": "获取某个网站的访问速度",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"web_url": {
+				"type": "string",
+				"description": "需要测试的网站网址"
+			},
+			"count": {
+				"type": "string",
+				"description": "测试次数"
+			}
+		},
+		"required": ["web_url", "count"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"web_url": {
+				"type": "string",
+				"description": "网址"
+			},
+			"speed_max": {
+				"type": "string",
+				"description": "最快访问速度"
+			},
+			"speed_min": {
+				"type": "string",
+				"description": "最慢访问速度"
+			},
+			"speed_avx": {
+				"type": "string",
+				"description": "平均访问速度"
+			}
+		},
+		"required": ["web_url", "speed_max", "speed_min", "speed_avx"]
+	}
+}

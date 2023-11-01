@@ -1,0 +1,32 @@
+{
+	"name": "jianhuangPicture",
+	"description": "获取某张图片是否涉黄",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"pic_url": {
+				"type": "string",
+				"description": "图片链接url"
+			}
+		},
+		"required": ["pic_url"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"rating_index": {
+				"type": "string",
+				"description": "图片内容级别: 1 所有人，2 青少年 ，3 为不良图片"
+			},
+			"rating_label": {
+				"type": "string",
+				"description": "图片内容适用范围：everyone所有人，teen青少年，adult成年人"
+			},
+			"predictions": {
+				"type": "string",
+				"description": "对该图片的分析概率"
+			}
+		},
+		"required": ["rating_index", "rating_label", "predictions"]
+	}
+}
