@@ -11,6 +11,10 @@ config_name = os.path.join(cur_path, "config/authentication.ini")
 test_api_type = "aistudio"
 test_access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+test_model_name = "ernie-bot"
+#test_model_name = "ernie-bot-3.5"
+#test_model_name = "ernie-bot-4"
+
 sleep_second_num = 5
 
 functions = [
@@ -76,7 +80,7 @@ def functionCallingAiStudioGetWeatherInfo():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot",
+        model = test_model_name,
         messages=messages,
         functions=functions
     )
@@ -110,7 +114,7 @@ def functionCallingAiStudioGetWeatherInfo():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot",
+        model = test_model_name,
         messages=messages,
         functions=functions
     )

@@ -6,7 +6,7 @@ import requests
 import time
 from config_parse import get_config_elem_value
 from function_calling_define import getCurrentWeather, getNDayWeatherForecast, getEarchQuakeInfo, getMarketNews, \
-        getGasolineDieselPrices, searchAirport, searchFlights
+        getGasolineDieselPrices, searchAirport, searchFlights, searchHotels
 
 cur_path = os.getcwd()
 config_name = os.path.join(cur_path, "config/authentication.ini")
@@ -17,6 +17,7 @@ xrapidapi_key = get_config_elem_value(config_name, "xrapidapi", "X-RapidAPI-Key"
 
 json_config_dir = "function_message_json_config"
 
+test_model_name = "gpt-3.5-turbo-0613"
 
 def getCurrentWeatherCall():
     """ Function Calling Get Current Weather Info """
@@ -33,7 +34,7 @@ def getCurrentWeatherCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -64,7 +65,7 @@ def getCurrentWeatherCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -87,7 +88,7 @@ def getNDayWeatherForecastCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -119,7 +120,7 @@ def getNDayWeatherForecastCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -142,7 +143,7 @@ def getEarchQuakeInfoCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -176,7 +177,7 @@ def getEarchQuakeInfoCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -199,7 +200,7 @@ def getMarketNewsCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -230,7 +231,7 @@ def getMarketNewsCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -253,7 +254,7 @@ def getGasolineDieselPricesCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -283,7 +284,7 @@ def getGasolineDieselPricesCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -306,7 +307,7 @@ def searchAirportCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -336,7 +337,7 @@ def searchAirportCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -359,7 +360,7 @@ def searchFlightsCall():
     functions.append(function_dict)
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model=test_model_name,
         messages=messages,
         functions=functions,
         function_call="auto",  # auto is default, but we'll be explicit
@@ -391,7 +392,61 @@ def searchFlightsCall():
         )  # extend conversation with function response
         print("messages:", messages)
         first_response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo-0613",
+            model=test_model_name,
+            messages=messages,
+        )  # get a new response from GPT where it can see the function response
+        response_result = first_response["choices"][0]["message"]
+        print("response_result:", response_result)
+        return(response_result)
+
+
+def searchHotelsCall():
+    """ Function Calling Get Hotels Info """
+    messages = []
+    filename = "search_hotels_message.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        message_dict = json.load(f)
+    messages.append(message_dict)
+
+    functions = []
+    filename = "search_hotels_functions.json"
+    with open(cur_path + "/" + json_config_dir + "/" + filename, 'r') as f:
+        function_dict = json.load(f)
+    functions.append(function_dict)
+
+    response = openai.ChatCompletion.create(
+        model=test_model_name,
+        messages=messages,
+        functions=functions,
+        function_call="auto",  # auto is default, but we'll be explicit
+    )
+    response_message = response["choices"][0]["message"]
+    print("function_call:", response_message)
+
+    if response_message.get("function_call"):
+        available_functions = {
+            "searchHotels": searchHotels,
+        }  # only one function in this example, but you can have multiple
+        function_name = response_message["function_call"]["name"]
+        fuction_to_call = available_functions[function_name]
+        function_args = json.loads(response_message["function_call"]["arguments"])
+        function_response = fuction_to_call(
+            query = function_args.get("query"),
+            limit_num = function_args.get("limit_num"),
+        )
+        print("function_response:", function_response)
+
+        messages.append(response_message)  # extend conversation with assistant's reply
+        messages.append(
+        {
+            "role": "function",
+            "name": function_name,
+            "content": function_response,
+        }
+        )  # extend conversation with function response
+        print("messages:", messages)
+        first_response = openai.ChatCompletion.create(
+            model=test_model_name,
             messages=messages,
         )  # get a new response from GPT where it can see the function response
         response_result = first_response["choices"][0]["message"]
@@ -427,6 +482,10 @@ class TestFunctionCalling:
 
     def test_searchFlights(self):
         result = searchFlightsCall()
+        assert "" != result
+
+    def test_searchHotels(self):
+        result = searchHotelsCall()
         assert "" != result
 
 if __name__ == '__main__':

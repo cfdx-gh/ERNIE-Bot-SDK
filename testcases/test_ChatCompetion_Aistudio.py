@@ -10,6 +10,10 @@ config_name = os.path.join(cur_path, "config/authentication.ini")
 test_api_type = "aistudio"
 test_access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+test_model_name = "ernie-bot"
+#test_model_name = "ernie-bot-3.5"
+#test_model_name = "ernie-bot-4"
+
 sleep_second_num = 15
 
 def chatCompetionAiStudioStreamFalse():
@@ -20,7 +24,7 @@ def chatCompetionAiStudioStreamFalse():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot-3.5",
+        model = test_model_name,
         messages=[{
             "role": "user",
             "content": "请介绍下你自己？"
@@ -46,7 +50,7 @@ def chatCompetionAiStudioCommunicate():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot-3.5",
+        model = test_model_name,
         messages=[{
             "role": "user",
             "content": "帮我推荐中国四大名著"
@@ -72,7 +76,7 @@ def chatCompetionAiStudioContentCreation():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot-3.5",
+        model = test_model_name,
         messages=[{
             "role": "user",
             "content": "用'百度文心'创作一首藏头诗"
@@ -98,7 +102,7 @@ def chatCompetionAiStudioCodeGeneration():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot-3.5",
+        model = test_model_name,
         messages=[{
             "role": "user",
             "content": "用python怎么写出'hello world'?"
@@ -123,7 +127,7 @@ def chatCompetionAiStudioConfigParam():
             api_type = test_api_type,
             access_token = test_access_token,
         ),
-        model="ernie-bot",
+        model = test_model_name,
         messages=[{"role": "user", "content": "你好，请介绍下你自己",
         }],
     )
