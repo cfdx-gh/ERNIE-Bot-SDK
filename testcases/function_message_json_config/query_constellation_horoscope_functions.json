@@ -1,0 +1,52 @@
+{
+	"name": "queryConstellationHoroscope",
+	"description": "查询某个星座在某个时间的运势",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"constellation_type": {
+				"type": "string",
+				"description": "要查询的星座名称，如天蝎座"
+			},
+			"time": {
+				"type": "string",
+				"description": "要查询的时间"
+			}
+		},
+		"required": ["constellation_type", "time"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"title": {
+				"type": "string",
+				"description": "星座名称"
+			},
+			"type": {
+				"type": "string",
+				"description": "什么时间的运势"
+			},
+			"time": {
+				"type": "string",
+				"description": "查询什么时间的运势"
+			},
+			"fortunetext": {
+				"type": "string",
+				"description": "运势预测内容"
+			},
+			"luckynumber": {
+				"type": "string",
+				"description": "幸运数字"
+			},
+			"luckycolor": {
+				"type": "string",
+				"description": "幸运颜色"
+			},
+			"luckyconstellation": {
+				"type": "string",
+				"description": "幸运星座"
+			}
+		},
+		"required": ["title", "type", "time", "fortunetext", "luckynumber", "luckycolor", "luckyconstellation"]
+	}
+}

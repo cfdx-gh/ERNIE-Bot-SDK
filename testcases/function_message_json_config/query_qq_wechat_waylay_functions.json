@@ -1,0 +1,40 @@
+{
+	"name": "queryQQWechatWhetherWaylay",
+	"description": "查询某个域名网址在QQ和微信是否能正常访问",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"url": {
+				"type": "string",
+				"description": "要查询的网址或域名"
+			}
+		},
+		"required": ["url"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"wechat_status": {
+				"type": "string",
+				"description": "微信内访问状态，1：正常访问; 2：拦截"
+			},
+			"sex_status": {
+				"type": "string",
+				"description": "QQ内访问状态，1：访问受限; 2：拦截; 3：正常访问"
+			},
+			"isDomainICPOk": {
+				"type": "string",
+				"description": "域名是否备案, 1：备案；0：没备案"
+			},
+			"ICPSerial": {
+				"type": "string",
+				"description": "备案号"
+			},
+			"Orgnization": {
+				"type": "string",
+				"description": "备案主体"
+			}
+		},
+		"required": ["wechat_status", "sex_status", "isDomainICPOk", "ICPSerial", "Orgnization"]
+	}
+}

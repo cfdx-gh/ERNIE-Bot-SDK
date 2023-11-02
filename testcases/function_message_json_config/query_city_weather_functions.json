@@ -1,0 +1,40 @@
+{
+	"name": "queryCityWeather",
+	"description": "查询某个城市的当前和未来天气情况",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"city_name": {
+				"type": "string",
+				"description": "要查询的城市名称"
+			},
+			"forecast_day": {
+				"type": "string",
+				"description": "要查询未来几天的天气"
+			}
+		},
+		"required": ["city_name", "forecast_day"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"current_condition": {
+				"type": "string",
+				"description": "当前天气情况"
+			},
+			"current_temperature": {
+				"type": "string",
+				"description": "当前天气温度"
+			},
+			"tips": {
+				"type": "string",
+				"description": "天气温馨提示"
+			},
+			"forecast_list": {
+				"type": "string",
+				"description": "未来天气预测情况"
+			}
+		},
+		"required": ["current_condition", "current_temperature", "tips", "forecast_list"]
+	}
+}

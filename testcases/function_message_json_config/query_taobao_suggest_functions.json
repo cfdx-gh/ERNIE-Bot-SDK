@@ -1,0 +1,32 @@
+{
+	"name": "queryTaobaoSuggestList",
+	"description": "查询某个关键词在淘宝上有哪些搜索选项",
+	"parameters": {
+		"type": "object",
+		"properties": {
+			"keyword": {
+				"type": "string",
+				"description": "要查询的关键词"
+			}
+		},
+		"required": ["keyword"]
+	},
+	"responses": {
+		"type": "object",
+		"properties": {
+			"nickname": {
+				"type": "string",
+				"description": "QQ的昵称"
+			},
+			"sex": {
+				"type": "string",
+				"description": "QQ主人的性别"
+			},
+			"age": {
+				"type": "string",
+				"description": "QQ主人的年龄"
+			}
+		},
+		"required": ["nickname", "sex", "age"]
+	}
+}
