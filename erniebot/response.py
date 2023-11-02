@@ -13,11 +13,16 @@
 # limitations under the License.
 
 import copy
+import inspect
 import json
 from collections.abc import Mapping
 from typing import (Any, Dict, Iterator, Union)
 
+from typing_extensions import Self
+
 from .utils.misc import Constant
+
+__all__ = ['EBResponse']
 
 
 class EBResponse(Mapping):
@@ -29,46 +34,53 @@ class EBResponse(Mapping):
     body are accessible through attributes.
     """
 
-    __slots__ = ('__dict', )
-
     _INNER_DICT_TYPE = Constant(dict)
-    _RESERVED_KEYS = Constant(('code', 'body', 'headers'))
+    _INSTANCE_ATTRS = Constant(('_dict', ))
+    _RESERVED_KEYS = Constant(('rcode', 'rbody', 'rheaders'))
+
+    rcode: int
+    rbody: Union[str, Dict[str, Any]]
+    rheaders: Dict[str, Any]
 
     def __init__(self,
-                 code: int,
-                 body: Union[str, Dict[str, Any]],
-                 headers: Dict[str, Any]) -> None:
+                 rcode: int,
+                 rbody: Union[str, Dict[str, Any]],
+                 rheaders: Dict[str, Any]) -> None:
         """Initialize the instance based on response code, body, and headers.
 
         Args:
-            code: Response status code.
-            body: Response body. If `body` is a dictionary, the key-value pairs
-                in the dictionary will also get registered, so that they can be
-                accessed from the object using dot notation.
-            headers: Response headers.
+            rcode: Response status code.
+            rbody: Response body. If `rbody` is a dictionary, the key-value
+                pairs in the dictionary will also get registered, so that they
+                can be accessed from the object using dot notation.
+            rheaders: Response headers.
         """
         super().__init__()
-        # Private name mangling to avoid conflicts with keys in `body`.
-        self.__dict = self._INNER_DICT_TYPE(
-            code=code, body=body, headers=headers)
-        if isinstance(body, dict):
-            self._update_from_dict(body)
+        self._dict = self._INNER_DICT_TYPE(
+            rcode=rcode, rbody=rbody, rheaders=rheaders)
+        if isinstance(rbody, dict):
+            self._update_from_dict(rbody)
+
+    @classmethod
+    def from_mapping(cls, mapping: Mapping) -> Self:
+        return cls(mapping['rcode'], mapping['rbody'], mapping['rheaders'])
 
     def __getitem__(self, key: str) -> Any:
-        if key in self.__dict:
-            return self.__dict[key]
+        if key in self._dict:
+            return self._dict[key]
         if hasattr(self.__class__, '__missing__'):
             return self.__class__.__missing__(self, key)
         raise KeyError(key)
 
     def __iter__(self) -> Iterator[str]:
-        return iter(self.__dict)
+        return iter(self._dict)
 
     def __len__(self) -> int:
-        return len(self.__dict)
+        return len(self._dict)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(code={repr(self.code)}, body={repr(self.body)}, headers={repr(self.headers)})"
+        params = f"rcode={repr(self.rcode)}, rbody={repr(self.rbody)}, rheaders={repr(self.rheaders)}"
+        return f"{self.__class__.__name__}({params})"
 
     def __str__(self) -> str:
         def _format(obj: object, level: int=0) -> str:
@@ -79,13 +91,14 @@ class EBResponse(Mapping):
                 items = []
                 keys_to_ignore = []
                 if isinstance(obj, EBResponse):
-                    items.append(('code', _format(self.code, level=level + 1)))
-                    if not isinstance(self.body, dict):
-                        items.append(('body', _format(
-                            self.body, level=level + 1)))
-                    items.append(('headers', _format(
-                        self.headers, level=level + 1)))
-                    keys_to_ignore.extend(['code', 'body', 'headers'])
+                    items.append(('rcode', _format(
+                        self.rcode, level=level + 1)))
+                    if not isinstance(self.rbody, dict):
+                        items.append(('rbody', _format(
+                            self.rbody, level=level + 1)))
+                    items.append(('rheaders', _format(
+                        self.rheaders, level=level + 1)))
+                    keys_to_ignore.extend(['rcode', 'rbody', 'rheaders'])
                 for k, v in obj.items():
                     if k in keys_to_ignore:
                         continue
@@ -117,33 +130,43 @@ class EBResponse(Mapping):
 
     def __getattr__(self, key: str) -> Any:
         try:
-            val = self.__dict[key]
+            val = self._dict[key]
             return val
         except KeyError:
             raise AttributeError
 
+    def __setattr__(self, key: str, value: Any) -> None:
+        if key in self._INSTANCE_ATTRS:
+            return super().__setattr__(key, value)
+        else:
+            raise AttributeError
+
     def __reduce__(self) -> tuple:
-        state = copy.copy(self.__dict)
-        code = state.pop('code')
-        body = state.pop('body')
-        headers = state.pop('headers')
-        return (self.__class__, (code, body, headers), state)
+        state = copy.copy(self._dict)
+        rcode = state.pop('rcode')
+        rbody = state.pop('rbody')
+        rheaders = state.pop('rheaders')
+        return (self.__class__, (rcode, rbody, rheaders), state)
 
     def __setstate__(self, state: dict) -> None:
-        self.__dict.update(state)
+        self._dict.update(state)
+
+    def get_result(self) -> Any:
+        return self.rbody
 
     def to_dict(self, deep_copy: bool=False) -> Dict[str, Any]:
         if deep_copy:
-            return copy.deepcopy(self.__dict)
+            return copy.deepcopy(self._dict)
         else:
-            return copy.copy(self.__dict)
+            return copy.copy(self._dict)
 
     def to_json(self) -> str:
-        return json.dumps(self.__dict)
+        return json.dumps(self._dict)
 
     def _update_from_dict(self, dict_: Dict[str, Any]) -> None:
+        member_names = set(pair[0] for pair in inspect.getmembers(self))
         for k, v in dict_.items():
-            if k not in self._RESERVED_KEYS:
-                self.__dict[k] = v
+            if k in self._RESERVED_KEYS or k in member_names:
+                raise KeyError(f"{repr(k)} is a reserved key.")
             else:
-                raise ValueError(f"{repr(k)} is a reserved key.")
+                self._dict[k] = v

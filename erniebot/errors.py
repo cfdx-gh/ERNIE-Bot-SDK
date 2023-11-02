@@ -45,7 +45,7 @@ class MaxRetriesExceededError(EBError):
 
 
 class TokenUpdateFailedError(EBError):
-    """Exception that's raised when the access token cannot be updated."""
+    """Exception that's raised when the security token cannot be updated."""
     pass
 
 
@@ -108,7 +108,16 @@ class TimeoutError(HTTPRequestError):
 
 class APIError(HTTPRequestError):
     """Exception that's raised when the API responds with an error code."""
-    pass
+
+    def __init__(self,
+                 message: Optional[str]=None,
+                 rcode: Optional[int]=None,
+                 rbody: Optional[str]=None,
+                 rheaders: Optional[Mapping[str, Any]]=None,
+                 ecode: Optional[int]=None) -> None:
+        super().__init__(
+            message=message, rcode=rcode, rbody=rbody, rheaders=rheaders)
+        self.ecode = ecode
 
 
 class InvalidParameterError(APIError):
@@ -118,7 +127,7 @@ class InvalidParameterError(APIError):
 
 
 class InvalidTokenError(APIError):
-    """Exception that's raised when the access token is invalid."""
+    """Exception that's raised when the security token is invalid."""
     pass
 
 
@@ -140,7 +149,7 @@ class ServiceUnavailableError(APIError):
 
 
 class TokenExpiredError(APIError):
-    """Exception that's raised when the access token is expired."""
+    """Exception that's raised when the security token is expired."""
     pass
 
 

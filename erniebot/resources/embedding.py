@@ -16,7 +16,9 @@ from typing import (Any, ClassVar, Dict, Optional, Tuple)
 
 import erniebot.errors as errors
 from erniebot.api_types import APIType
-from erniebot.types import (ParamsType, HeadersType, FilesType, ResponseT)
+from erniebot.response import EBResponse
+from erniebot.types import (FilesType, HeadersType, ParamsType, ResponseT)
+from erniebot.utils.misc import transform
 from .abc import Creatable
 from .resource import EBResource
 
@@ -57,7 +59,7 @@ class Embedding(EBResource, Creatable):
             if key in src:
                 dst[key] = src[key]
 
-        VALID_KEYS = {'model', 'input', 'headers', 'stream', 'request_timeout'}
+        VALID_KEYS = {'model', 'input', 'headers', 'request_timeout'}
 
         invalid_keys = kwargs.keys() - VALID_KEYS
 
@@ -75,13 +77,13 @@ class Embedding(EBResource, Creatable):
             raise errors.ArgumentNotFoundError("`input` is not found.")
         input = kwargs['input']
 
-        # url
+        # path
         if self.api_type in self.SUPPORTED_API_TYPES:
             api_info = self._API_INFO_DICT[self.api_type]
             if model not in api_info['models']:
                 raise errors.InvalidArgumentError(
                     f"{repr(model)} is not a supported model.")
-            url = f"/{api_info['resource_id']}/{api_info['models'][model]['model_id']}"
+            path = f"/{api_info['resource_id']}/{api_info['models'][model]['model_id']}"
         else:
             raise errors.UnsupportedAPITypeError(
                 f"Supported API types: {self.get_supported_api_type_names()}")
@@ -98,12 +100,20 @@ class Embedding(EBResource, Creatable):
         files = None
 
         # stream
-        stream = kwargs.get('stream', False)
+        stream = False
 
         # request_timeout
         request_timeout = kwargs.get('request_timeout', None)
 
-        return url, params, headers, files, stream, request_timeout
+        return path, params, headers, files, stream, request_timeout
 
-    def _post_process_create(self, resp: ResponseT) -> ResponseT:
-        return resp
+    def _postprocess_create(self, resp: ResponseT) -> ResponseT:
+        return transform(EmbeddingResponse.from_mapping, resp)
+
+
+class EmbeddingResponse(EBResponse):
+    def get_result(self) -> Any:
+        embeddings = []
+        for res in self.data:
+            embeddings.append(res['embedding'])
+        return embeddings

@@ -12,18 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import abc
 from typing import (Any, AsyncIterator, Dict, Iterator, Optional, Tuple, Union)
-
-from typing_extensions import Protocol, runtime_checkable
 
 from erniebot.response import EBResponse
 from erniebot.types import (ParamsType, HeadersType, FilesType, ResponseT)
 from .protocol import Resource
 
 
-@runtime_checkable
-class Creatable(Resource, Protocol):
-    """Creatable resource protocol."""
+class Creatable(Resource):
+    """Creatable resource."""
 
     @classmethod
     def create(cls, **kwargs: Any) -> Union[EBResponse, Iterator[EBResponse]]:
@@ -46,36 +44,37 @@ class Creatable(Resource, Protocol):
     def create_resource(
             self,
             **create_kwargs: Any) -> Union[EBResponse, Iterator[EBResponse]]:
-        url, params, headers, files, stream, request_timeout = self._prepare_create(
+        path, params, headers, files, stream, request_timeout = self._prepare_create(
             create_kwargs)
         resp = self.request(
             method='POST',
-            url=url,
+            path=path,
             stream=stream,
             params=params,
             headers=headers,
             files=files,
             request_timeout=request_timeout)
         # See https://github.com/python/mypy/issues/1533
-        resp = self._post_process_create(resp)  # type: ignore
+        resp = self._postprocess_create(resp)  # type: ignore
         return resp
 
     async def acreate_resource(
         self,
         **create_kwargs: Any) -> Union[EBResponse, AsyncIterator[EBResponse]]:
-        url, params, headers, files, stream, request_timeout = self._prepare_create(
+        path, params, headers, files, stream, request_timeout = self._prepare_create(
             create_kwargs)
         resp = await self.arequest(
             method='POST',
-            url=url,
+            path=path,
             stream=stream,
             params=params,
             headers=headers,
             files=files,
             request_timeout=request_timeout)
-        resp = self._post_process_create(resp)  # type: ignore
+        resp = self._postprocess_create(resp)  # type: ignore
         return resp
 
+    @abc.abstractmethod
     def _prepare_create(self,
                         kwargs: Dict[str, Any]) -> Tuple[str,
                                                          Optional[ParamsType],
@@ -86,5 +85,5 @@ class Creatable(Resource, Protocol):
                                                          ]:
         ...
 
-    def _post_process_create(self, resp: ResponseT) -> ResponseT:
-        ...
+    def _postprocess_create(self, resp: ResponseT) -> ResponseT:
+        return resp

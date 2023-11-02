@@ -1,9 +1,24 @@
 #!/usr/bin/env python
 
+# Copyright (c) 2023 PaddlePaddle Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import asyncio
+import sys
 
 import erniebot
-from erniebot.utils import logger
+from erniebot.utils.logging import logger
 
 NUM_TASKS = 4
 
@@ -23,7 +38,7 @@ async def acreate_chat_completion(model):
             'content': "我在深圳，周末可以去哪里玩？"
         }],
         stream=False)
-    print(resp)
+    print(resp.get_result())
 
 
 async def acreate_chat_completion_stream(model):
@@ -43,10 +58,12 @@ async def acreate_chat_completion_stream(model):
         stream=True)
 
     async for item in resp:
-        print(item)
+        sys.stdout.write(item.get_result())
+        sys.stdout.flush()
+    sys.stdout.write('\n')
 
 
-async def test_aio(target, args):
+async def test_chat_completion_aio(target, args):
     coroutines = []
     for _ in range(NUM_TASKS):
         coroutine = target(*args)
@@ -55,13 +72,14 @@ async def test_aio(target, args):
 
 
 if __name__ == '__main__':
-    logger.set_level("WARNING")
+    logger.set_level('WARNING')
+
     erniebot.api_type = 'qianfan'
 
-    # 批量返回
-    asyncio.run(test_aio(acreate_chat_completion, args=('ernie-bot-turbo', )))
-
-    # 流式逐句返回
     asyncio.run(
-        test_aio(
+        test_chat_completion_aio(
+            acreate_chat_completion, args=('ernie-bot-turbo', )))
+
+    asyncio.run(
+        test_chat_completion_aio(
             acreate_chat_completion_stream, args=('ernie-bot-turbo', )))
