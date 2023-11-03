@@ -2133,6 +2133,10 @@ class TestFunctionCalling:
         result = queryTaobaoSuggestListCall()
         assert "" != result
 
+    def test_translateText(self):
+        result = translateTextCall()
+        assert "" != result
+
     def test_queryConstellationHoroscope(self):
         result = queryConstellationHoroscopeCall()
         assert "" != result
