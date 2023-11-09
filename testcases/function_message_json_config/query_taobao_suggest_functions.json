@@ -14,19 +14,15 @@
 	"responses": {
 		"type": "object",
 		"properties": {
-			"nickname": {
+			"search_name": {
 				"type": "string",
-				"description": "QQ的昵称"
+				"description": "搜索名称"
 			},
-			"sex": {
+			"search_index": {
 				"type": "string",
-				"description": "QQ主人的性别"
-			},
-			"age": {
-				"type": "string",
-				"description": "QQ主人的年龄"
+				"description": "搜索指数"
 			}
 		},
-		"required": ["nickname", "sex", "age"]
+		"required": ["search_name", "search_index"]
 	}
 }
