@@ -2,6 +2,8 @@ import pytest
 import erniebot
 import os
 import time
+import asyncio
+import sys
 from config_parse import get_config_elem_value
 
 cur_path = os.getcwd()
@@ -12,6 +14,7 @@ test_ak = get_config_elem_value(config_name, test_api_type, "ak")
 test_sk = get_config_elem_value(config_name, test_api_type, "sk")
 test_access_token = get_config_elem_value(config_name, test_api_type, "access_token")
 
+NUM_TASKS = 4
 sleep_second_num = 2
 
 def chatCompetionAiStudioStreamFalse():
@@ -200,6 +203,60 @@ def chatCompetionAiStudioUseAccessToken():
     return(result)
 
 
+async def acreate_chat_completion(model):
+    resp = await erniebot.ChatCompletion.acreate(
+        model=model,
+        messages=[
+            {"role": "user", "content": "请问你是谁？"},
+            {
+                "role": "assistant",
+                "content": (
+                    "我是百度公司开发的人工智能语言模型，我的中文名是文心一言，英文名是ERNIE-Bot，可以协助您完成范围广泛的任务并提供有关各种主题的信息，"
+                    "比如回答问题，提供定义和解释及建议。如果您有任何问题，请随时向我提问。",
+                ),
+            },
+            {"role": "user", "content": "我在深圳，周末可以去哪里玩？"},
+        ],
+        stream=False,
+    )
+    print(resp.get_result())
+
+
+async def acreate_chat_completion_stream(model):
+    resp = await erniebot.ChatCompletion.acreate(
+        model=model,
+        messages=[
+            {"role": "user", "content": "请问你是谁？"},
+            {
+                "role": "assistant",
+                "content": (
+                    "我是百度公司开发的人工智能语言模型，我的中文名是文心一言，英文名是ERNIE-Bot，可以协助您完成范围广泛的任务并提供有关各种主题的信息，"
+                    "比如回答问题，提供定义和解释及建议。如果您有任何问题，请随时向我提问。"
+                ),
+            },
+            {"role": "user", "content": "我在深圳，周末可以去哪里玩？"},
+        ],
+        stream=True,
+    )
+
+    res_str = ""
+    async for item in resp:
+        sys.stdout.write(item.get_result())
+        res_str += str(item.get_result())
+        sys.stdout.flush()
+    sys.stdout.write("\n")
+    return(res_str)
+
+
+async def chat_completion_aio_test(target, args):
+    coroutines = []
+    for _ in range(NUM_TASKS):
+        coroutine = target(*args)
+        coroutines.append(coroutine)
+    await asyncio.gather(*coroutines)
+
+
+
 class TestChatCompetion:
     """ Test Class for Chat Competion """
     def test_qianfanStreamFalse(self):
@@ -244,6 +301,13 @@ class TestChatCompetion:
         print("res:", result)
         assert "" != result
         time.sleep(sleep_second_num)
+
+    #def test_qianfanChatCompletionAioStreamFalse(self):
+    #    #asyncio.run(chat_completion_aio_test(acreate_chat_completion, args=("ernie-bot-turbo",)))
+    #    #result = asyncio.run(chat_completion_aio_test(acreate_chat_completion_stream, args=("ernie-bot-turbo",)))
+    #    #print("res:", result)
+    #    #assert "" != result
+    #    #time.sleep(sleep_second_num)
 
 
 if __name__ == '__main__':

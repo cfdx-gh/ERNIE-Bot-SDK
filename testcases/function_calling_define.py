@@ -650,8 +650,12 @@ def queryMovieRank(count):
     url = "https://api.vvhan.com/api/douban"
     cmd = "curl -s " + url
     print(cmd)
-    status, response = subprocess.getstatusoutput(cmd)
-    res =  json.loads(response)
+    #status, response = subprocess.getstatusoutput(cmd)
+    #res =  json.loads(response)
+    #print(res)
+    filename = "movie_rank.json"
+    with open(cur_path + "/" + chinese_api_result_dir + "/" + filename, 'r') as f:
+        res = json.load(f)
     res_list = []
     i = 1
     for elem in res["data"]:
@@ -665,6 +669,215 @@ def queryMovieRank(count):
             res_dict["movie_actor"] = elem["info"]["yanyuan"]
             res_dict["movie_score"] = elem["info"]["pingfen"]
             res_list.append(res_dict)
+            i += 1
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def queryIpAddressInfo(ip):
+    """Query Ip Address Info"""
+    url = "https://api.oioweb.cn/api/ip/ipaddress"
+    cmd = "curl -s " + url + "?ip=" + ip
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["disp"] = res["result"]["disp"]
+    res_dict["start_ip"] = res["result"]["start"]
+    res_dict["end_ip"] = res["result"]["end"]
+    res_list.append(res_dict)
     print(res_list)
     return json.dumps(res_list)
+
+
+def queryQQInfo(qq):
+    """Query QQ Info"""
+    url = "https://api.oioweb.cn/api/qq/info"
+    cmd = "curl -s " + url + "?qq=" + qq
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["nickname"] = res["result"]["nickname"]
+    res_dict["sex"] = res["result"]["sex"]
+    res_dict["age"] = res["result"]["age"]
+    res_list.append(res_dict)
+    print(res_list)
+    return json.dumps(res_list)
+
+
+def queryQQWechatWhetherWaylay(url):
+    """Query QQ and Wechat Whether Waylay"""
+    url = "https://api.oioweb.cn/api/site/waylay"
+    cmd = "curl -s " + url + "?url=" + url
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["wechat_status"] = res["result"]["wechat"]
+    res_dict["qq_status"] = res["result"]["qq"]
+    res_dict["isDomainICPOk"] = res["result"]["isDomainICPOk"]
+    res_dict["ICPSerial"] = res["result"]["ICPSerial"]
+    res_dict["Orgnization"] = res["result"]["Orgnization"]
+    res_list.append(res_dict)
+    print(res_list)
+    return json.dumps(res_list)
+
+
+def queryCityWeather(city_name, forecast_day):
+    """Query City Weather"""
+    url = "https://api.oioweb.cn/api/weather/weather"
+    http_code = urllib.parse.quote(city_name)
+    cmd = "curl -s " + url + "?city_name=" + http_code
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["current_condition"] = res["result"]["current_condition"]
+    res_dict["current_temperature"] = res["result"]["current_temperature"]
+    res_dict["tips"] = res["result"]["tips"]
+    i = 1
+    forecast_list = []
+    for elem in res["result"]["forecast_list"]:
+        if i > int(forecast_day):
+            break
+        else:
+            forecast_list.append(elem)
+    res_dict["forecast_list"] = forecast_list
+    res_list.append(res_dict)
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def queryLongitudeAndLatitudeInfo(longitude, latitude):
+    """Query Longitude And Latitude Info"""
+    url = "https://api.oioweb.cn/api/ip/geocoder"
+    cmd = "curl -s " + url + "?lng=" + str(longitude) + "&lat=" + str(latitude)
+    print(cmd)
+    #status, response = subprocess.getstatusoutput(cmd)
+    #res =  json.loads(response)
+    filename = "lng_lat.json"
+    with open(cur_path + "/" + chinese_api_result_dir + "/" + filename, 'r') as f:
+        res = json.load(f)
+    res_list = []
+    res_dict = {}
+    res_dict["address"] = res["result"]["address"]
+    res_dict["formatted_addresses"] = res["result"]["formatted_addresses"]
+    res_dict["address_component"] = res["result"]["address_component"]
+    res_dict["ad_info"] = res["result"]["ad_info"]
+    res_list.append(res_dict)
+    print(res_list)
+    return json.dumps(res_list)
+
+
+def queryDictWordMean(word):
+    """Query Dict Word Mean"""
+    url = "https://api.oioweb.cn/api/txt/dict"
+    http_code = urllib.parse.quote(word)
+    cmd = "curl -s " + url + "?text=" + http_code
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["pinyin"] = res["result"]["pinyin"]
+    res_dict["bihua"] = res["result"]["bihua"]
+    res_dict["bushou"] = res["result"]["bushou"]
+    res_dict["words"] = res["result"]["words"]
+    res_dict["basic_explain"] = res["result"]["basic_explain"]
+    res_list.append(res_dict)
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def translateText(text):
+    """Translate Text"""
+    url = "https://api.oioweb.cn/api/txt/QQFanyi"
+    http_code = urllib.parse.quote(text)
+    cmd = "curl -s " + url + "?sourceText=" + http_code
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["sourceText"] = res["result"]["sourceText"]
+    res_dict["targetText"] = res["result"]["targetText"]
+    res_dict["source"] = res["result"]["source"]
+    res_dict["target"] = res["result"]["target"]
+    res_list.append(res_dict)
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def queryTaobaoSuggestList(keyword):
+    """Query Taobao Suggest List"""
+    url = "https://api.oioweb.cn/api/search/taobao_suggest"
+    http_code = urllib.parse.quote(keyword)
+    cmd = "curl -s " + url + "?keyword=" + http_code
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = res["result"]
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def queryConstellationHoroscope(constellation_type, time):
+    """Query Constellation Horoscope"""
+    url = "https://api.vvhan.com/api/horoscope"
+    type_dict = {"白羊座": "aries", \
+                 "金牛座": "taurus", \
+                 "双子座": "gemini", \
+                 "巨蟹座": "cancer", \
+                 "狮子座": "leo", \
+                 "处女座": "virgo", \
+                 "天秤座": "libra", \
+                 "天蝎座": "scorpio", \
+                 "射手座": "sagittarius", \
+                 "摩羯座": "capricorn", \
+                 "水瓶座": "aquarius", \
+                 "双鱼座": "pisces"}
+    time_tict = {"今天": "today", \
+                 "明天": "nextday", \
+                 "周": "week", \
+                 "月": "month", \
+                 "年": "year"}
+    cmd = "curl -s " + url + "?type=" + type_dict[constellation_type] + "&time=" + time_dict[time]
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["title"] = res["data"]["title"]
+    res_dict["type"] = res["data"]["type"]
+    res_dict["time"] = res["data"]["time"]
+    res_dict["fortunetext"] = res["data"]["fortunetext"]
+    res_dict["luckynumber"] = res["data"]["luckynumber"]
+    res_dict["luckycolor"] = res["data"]["luckycolor"]
+    res_dict["luckyconstellation"] = res["data"]["luckyconstellation"]
+    res_list.append(res_dict)
+    #print(res_list)
+    return json.dumps(res_list)
+
+
+def queryDomainEmploy(domain):
+    """Query Domain Employ Info """
+    url = "https://api.oioweb.cn/api/site/employ"
+    cmd = "curl -s " + url + "?domain=" + domain
+    print(cmd)
+    status, response = subprocess.getstatusoutput(cmd)
+    res =  json.loads(response)
+    res_list = []
+    res_dict = {}
+    res_dict["record"] = res["result"]["record"]
+    res_dict["anti"] = res["result"]["anti"]
+    res_dict["update"] = res["result"]["update"]
+    res_list.append(res_dict)
+    #print(res_list)
+    return json.dumps(res_list)
+
 
